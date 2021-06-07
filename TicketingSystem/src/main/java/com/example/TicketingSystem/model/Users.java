@@ -34,12 +34,12 @@ public class Users extends Auditable {
     @Getter
     private Long id;
 
-    @Column(name = "firstname",nullable = false, unique = false)
+    @Column(name = "firstName",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
     private String fisrtName;
 
 
-    @Column(name = "lastname",nullable = false, unique = false)
+    @Column(name = "lastName",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
     private String lastName;
 
@@ -76,7 +76,8 @@ public class Users extends Auditable {
 
 
 
-    public Users(long l, String fisrtName , String lastName, String pass, String email, int avatar , int type) {
+    public Users(List<Ticket> tickets ,long l, String fisrtName , String lastName, String pass, String email, int avatar , int type) {
+        this.tickets = tickets;
         this.id = l;
         this.fisrtName = fisrtName;
         this.lastName = lastName;
