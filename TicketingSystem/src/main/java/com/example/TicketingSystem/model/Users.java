@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.example.TicketingSystem.model.enums.Gender;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +23,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Users extends Auditable {
 
-
     @OneToMany
     private List<Ticket> tickets ;
-
-
 
 
     @Id
@@ -34,9 +33,9 @@ public class Users extends Auditable {
     @Getter
     private Long id;
 
-    @Column(name = "firstname",nullable = false, unique = false)
+    @Column(name = "firstName",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
-    private String fisrtName;
+    private String firstName;
 
 
     @Column(name = "lastname",nullable = false, unique = false)
@@ -57,16 +56,16 @@ public class Users extends Auditable {
     private String email;
 
 
-    //enum
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
-    private int gender;
+    private Gender gender;
 
 
-
-    @Column(name = "avatar",nullable = false, unique = false)
+    @Lob
+    @Column(name = "avatar",nullable = false, unique = false, columnDefinition = "BLOB")
     @NotEmpty(message = "Must not be null")
-    private int avatar;
+    private byte[] avatar;
 
 
 
@@ -75,14 +74,14 @@ public class Users extends Auditable {
     private int type;
 
 
-
-    public Users(long l, String fisrtName , String lastName, String pass, String email, int avatar , int type) {
-        this.id = l;
-        this.fisrtName = fisrtName;
+    public Users(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender) {
+        this.id = id;
+        this.firstName = firstName;
         this.lastName = lastName;
-        this.password = pass;
+        this.password = password;
         this.email = email;
         this.avatar = avatar;
         this.type = type;
+        this.gender = gender;
     }
 }

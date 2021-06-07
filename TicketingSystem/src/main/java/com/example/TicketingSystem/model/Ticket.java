@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.example.TicketingSystem.model.enums.Category;
+import com.example.TicketingSystem.model.enums.TicketStatus;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +23,8 @@ import javax.persistence.OneToMany;
 @NoArgsConstructor
 public class Ticket extends Auditable {
 
-
-
     @ManyToOne
     private Users user;
-
-
 
 
     @Id
@@ -33,7 +32,6 @@ public class Ticket extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
-
 
 
     @Column(name = "subject",nullable = false, unique = false)
@@ -47,24 +45,24 @@ public class Ticket extends Auditable {
 
 
 
-    //enum
+    @Enumerated(EnumType.STRING)
     @Column(name = "status",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
-    private String status;
+    private TicketStatus status;
 
 
 
 
-    //enum
+    @Enumerated(EnumType.STRING)
     @Column(name = "category",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
-    private String category;
+    private Category category;
 
 
 
 
 
-    public Ticket( Users user, long l, String subject , String description, String status, String category) {
+    public Ticket( Users user, long l, String subject , String description, TicketStatus status, Category category) {
         this.user = user;
         this.id = l;
         this.subject = subject;
