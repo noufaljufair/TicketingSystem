@@ -41,6 +41,9 @@ public class Ticket extends Auditable {
     private String subject;
 
 
+
+
+    @Lob
     @Column(name = "description",nullable = false, unique = false)
     @NotEmpty(message = "Must not be null")
     private String description;
