@@ -14,17 +14,17 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 
 @Data
 @Entity
-@Table(name = "Ticket")
+@Table(name = "ticket")
 @NoArgsConstructor
 public class Ticket extends Auditable {
 
     @ManyToOne
-    private Users user;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
     @Id
@@ -65,9 +65,9 @@ public class Ticket extends Auditable {
 
 
 
-    public Ticket( Users user, long l, String subject , String description, TicketStatus status, Category category) {
+    public Ticket(User user, long id, String subject , String description, TicketStatus status, Category category) {
         this.user = user;
-        this.id = l;
+        this.id = id;
         this.subject = subject;
         this.description = description;
         this.status = status;

@@ -14,17 +14,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 @NoArgsConstructor
-public class Users extends Auditable {
+public class User extends Auditable {
 
-    @OneToMany
-    private List<Ticket> tickets ;
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets = new ArrayList<>();
 
 
     @Id
@@ -74,7 +75,7 @@ public class Users extends Auditable {
     private int type;
 
 
-    public Users(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender) {
+    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -83,5 +84,6 @@ public class Users extends Auditable {
         this.avatar = avatar;
         this.type = type;
         this.gender = gender;
+        this.tickets = tickets;
     }
 }
