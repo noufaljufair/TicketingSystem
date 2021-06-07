@@ -1,4 +1,4 @@
 package com.example.TicketingSystem.Repository;
 
-public class TicketRepository {
+public interface TicketRepository {
 }

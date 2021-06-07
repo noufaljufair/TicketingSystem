@@ -1,4 +1,4 @@
 package com.example.TicketingSystem.Repository;
 
-public class UserRepository {
+public interface UserRepository {
 }
