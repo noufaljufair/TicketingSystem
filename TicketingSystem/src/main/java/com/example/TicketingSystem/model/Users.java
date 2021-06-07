@@ -85,5 +85,6 @@ public class Users extends Auditable {
         this.email = email;
         this.avatar = avatar;
         this.type = type;
+
     }
 }
