@@ -37,7 +37,7 @@ public class UsersController {
 
 //get all users
     @RequestMapping(value = "/getAllUsers")
-    public List<Ticket> getAllUsers(){ return userService.getAllUsers();}
+    public List<User> getAllUsers(){ return userService.getAllUsers();}
 
 
 //get user by ID
