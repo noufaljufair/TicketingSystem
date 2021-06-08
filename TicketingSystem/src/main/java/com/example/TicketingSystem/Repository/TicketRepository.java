@@ -12,7 +12,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByStatus(TicketStatus status);
 
-    Ticket findByUserId(Long id);
+    List<Ticket> findByUserId(Long id);
 
 
 }
