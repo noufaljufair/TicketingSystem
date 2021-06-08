@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 
 @Data
 @Entity
-@Table(name = "ticket")
+@Table(name = "tickets")
 @NoArgsConstructor
 public class Ticket extends Auditable {
 
