@@ -1,20 +1,15 @@
 package com.example.TicketingSystem.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import com.example.TicketingSystem.Repository.UserRepository;
+import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +22,7 @@ public class UserService {
 
 
 
-   public List<User> getAllUsers(){
+   public List<Ticket> getAllUsers(){
       List<User> users = new ArrayList<>();
       userRepository.findAll().forEach(users::add);
       return users;
