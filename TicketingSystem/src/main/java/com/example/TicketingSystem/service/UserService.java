@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,9 +35,7 @@ public class UserService {
 
 
    public User getUserById(long id){
-      List<User> users = new ArrayList<>();
-      userRepository.findAll().forEach(users::add);
-      return users.stream().filter(t -> t.getId().equals(id)).findFirst().get();
+      return userRepository.findById(id).get();
  }
 
    public List<User> getUserByType(int type){
