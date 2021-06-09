@@ -1,8 +1,11 @@
 package com.example.TicketingSystem.controller;
 
 
+import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.User;
 import com.example.TicketingSystem.service.UserService;
+import com.example.TicketingSystem.service.TicketService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,8 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TicketService ticketService;
 
 //create user
     @RequestMapping(method=RequestMethod.POST, value = "/users")
@@ -34,6 +39,12 @@ public class UsersController {
     @RequestMapping(method=RequestMethod.DELETE, value = "/users/{id}")
     public void deleteTopic(@PathVariable long id ){ userService.deleteUser(id); }
 
+
+   //get Ticket by user ID
+    @RequestMapping("/users/{id}/tickets")
+    public List<Ticket> getTicketByUserId(@PathVariable long id){
+        return ticketService.getTicketByUserId(id);
+    }
 
 
 //get all users

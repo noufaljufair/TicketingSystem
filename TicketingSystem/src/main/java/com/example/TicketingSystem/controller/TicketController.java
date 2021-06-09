@@ -42,12 +42,6 @@ public class TicketController {
 
 
 
-    //get Ticket by user ID
-    @RequestMapping("/users/{id}/tickets")
-    public List<Ticket> getTicketByUserId(@PathVariable long id){
-        return ticketService.getTicketByUserId(id);
-    }
-
 
 
     //create new ticket
