@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/tickets")
 public class TicketController {
 
     private final TicketService ticketService;
@@ -21,14 +22,14 @@ public class TicketController {
     }
 
     //get all tickets
-    @RequestMapping("/tickets")
+    @GetMapping
     public List<Ticket> getAllTickets(){
         return ticketService.getAllTickets();
     }
 
 
     //get ticket by id
-    @RequestMapping("/tickets/{id}")
+    @GetMapping("/{id}")
     public Ticket getTicketById(@PathVariable long id){
         return ticketService.getTicketById(id);
     }
@@ -36,37 +37,37 @@ public class TicketController {
 
 
     //create new ticket
-    @RequestMapping(method=RequestMethod.POST, value = "/tickets")
+    @PostMapping
     public void addTicket(@RequestBody Ticket ticket){
          ticketService.addTicket(ticket);
     }
 
 
     //update ticket
-    @RequestMapping(method=RequestMethod.PUT, value = "/tickets/{id}")
-    public void addTopic(@RequestBody Ticket ticket , @PathVariable long id ){
+    @PutMapping(value = "/{id}")
+    public void updateTicket(@RequestBody Ticket ticket , @PathVariable long id ){
         ticketService.updateTicket(ticket);
     }
 
 
 
     //delete ticket
-    @RequestMapping(method=RequestMethod.DELETE, value = "/tickets/{id}")
-    public void deleteTopic(@PathVariable long id ){
+    @DeleteMapping(value = "/{id}")
+    public void deleteTicket(@PathVariable long id ){
         ticketService.deleteTicket(id);
     }
 
 
 
     //get ticket by category
-    @RequestMapping("/tickets/category")
+    @GetMapping("/category")
     public List<Ticket> getTicketByCategory(@PathVariable Category category){
         return ticketService.getTicketByCategory(category);
     }
 
 
     //get ticker by status
-    @RequestMapping("/tickets/status")
+    @GetMapping("/status")
     public List<Ticket> getTicketByStatus(@PathVariable TicketStatus status){
         return ticketService.getTicketByStatus(status);
     }
