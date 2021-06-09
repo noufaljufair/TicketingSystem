@@ -2,18 +2,14 @@ package com.example.TicketingSystem.controller;
 
 
 
-import java.util.List;
-import java.util.Optional;
 import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.enums.Category;
 import com.example.TicketingSystem.model.enums.TicketStatus;
 import com.example.TicketingSystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -38,9 +34,6 @@ public class TicketController {
     public Ticket getTicketById(@PathVariable long id){
         return ticketService.getTicketById(id);
     }
-
-
-
 
 
 
