@@ -56,4 +56,16 @@ public class UserService {
 
 
 
+
+   public List<Ticket> getTicketByUserId(long id){
+      List<Ticket> tickets = new ArrayList<>();
+      userRepository.findById(id).get().getTickets();
+      return tickets;
+   }
+
+
+
+
+
+
 }

@@ -28,11 +28,9 @@ public class TicketService {
         return ticketRepository.findById(id).get();
     }
 
-    public List<Ticket> getTicketByUserId(long id){
-        List<Ticket> tickets = new ArrayList<>();
-        ticketRepository.findByUserId(id).forEach(tickets::add);
-        return tickets;
-    }
+
+
+
 
     public List<Ticket> getTicketByCategory(Category category){
         List<Ticket> tickets = new ArrayList<>();
