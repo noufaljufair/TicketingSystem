@@ -6,7 +6,6 @@ import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.enums.Category;
 import com.example.TicketingSystem.model.enums.TicketStatus;
 import com.example.TicketingSystem.service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +14,11 @@ import java.util.List;
 @RestController
 public class TicketController {
 
+    private final TicketService ticketService;
 
-    @Autowired
-    private TicketService ticketService;
-
-
-
+    public TicketController(TicketService ticketService){
+        this.ticketService = ticketService;
+    }
 
     //get all tickets
     @RequestMapping("/tickets")
@@ -65,7 +63,6 @@ public class TicketController {
     public List<Ticket> getTicketByCategory(@PathVariable Category category){
         return ticketService.getTicketByCategory(category);
     }
-
 
 
     //get ticker by status
