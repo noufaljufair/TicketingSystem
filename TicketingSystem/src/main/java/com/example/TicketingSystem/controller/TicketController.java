@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TicketController {
 
+    private final TicketService ticketService;
 
-    @Autowired
-    private TicketService ticketService;
-
-
-
+    public TicketController(TicketService ticketService){
+        this.ticketService = ticketService;
+    }
 
     //get all tickets
     @RequestMapping("/tickets")
@@ -38,10 +37,6 @@ public class TicketController {
     public Ticket getTicketById(@PathVariable long id){
         return ticketService.getTicketById(id);
     }
-
-
-
-
 
 
     //create new ticket
@@ -72,7 +67,6 @@ public class TicketController {
     public List<Ticket> getTicketByCategory(@PathVariable Category category){
         return ticketService.getTicketByCategory(category);
     }
-
 
 
     //get ticker by status

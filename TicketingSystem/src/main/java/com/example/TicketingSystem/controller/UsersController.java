@@ -15,45 +15,46 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/users")
 public class UsersController {
 
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-
+    public UsersController(UserService userService){
+        this.userService = userService;
+    }
 
 //create user
-    @RequestMapping(method=RequestMethod.POST, value = "/users")
+    @PostMapping
     public void addUser(@RequestBody User user){
         userService.addUser(user);
     }
 
 //updateUser
-    @RequestMapping(method=RequestMethod.PUT, value = "/users/{id}")
-    public void addTopic(@RequestBody User user , @PathVariable long id ){
+    @PutMapping(value = "/{id}")
+    public void updateUser(@RequestBody User user , @PathVariable long id ){
         userService.updateUser(user);
     }
 
 //delete user
-    @RequestMapping(method=RequestMethod.DELETE, value = "/users/{id}")
-    public void deleteTopic(@PathVariable long id ){ userService.deleteUser(id); }
+    @DeleteMapping(value = "/{id}")
+    public void deleteUser(@PathVariable long id ){ userService.deleteUser(id); }
 
 
    //get Ticket by user ID
-    @RequestMapping("/users/{id}/tickets")
-    public List<Ticket> getTicketByUserId(@PathVariable long id){
+    @GetMapping("/{id}/tickets")
+    public List<Ticket> getTicketsByUserId(@PathVariable long id){
         return userService.getTicketByUserId(id);
     }
 
 
 //get all users
-    @RequestMapping(value = "/getAllUsers")
+    @GetMapping
     public List<User> getAllUsers(){ return userService.getAllUsers();}
 
 
 //get user by ID
-    @RequestMapping("/users/{id}")
-
-    public User getUesrById(@PathVariable long id){ return userService.getUserById(id); }
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable long id){ return userService.getUserById(id); }
 
 }
