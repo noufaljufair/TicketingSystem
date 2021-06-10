@@ -1,6 +1,7 @@
 package com.example.TicketingSystem.Repository;
 
 import com.example.TicketingSystem.model.User;
+import com.example.TicketingSystem.model.enums.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ public interface UserRepository extends JpaRepository<User ,Long> {
 
 
     //User findByid(Long id);
-    User findBytype(int type);
+    List<User> findByType(UserType type);
 
  /*
     @Modifying

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.example.TicketingSystem.model.enums.Gender;
+import com.example.TicketingSystem.model.enums.UserType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table
 @NoArgsConstructor
 public class User extends Auditable {
 
@@ -59,23 +60,23 @@ public class User extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender",nullable = false, unique = false)
-    @NotEmpty(message = "Must not be null")
+    //@NotEmpty(message = "Must not be null")
     private Gender gender;
 
 
     @Lob
     @Column(name = "avatar",nullable = false, unique = false, columnDefinition = "BLOB")
-    @NotEmpty(message = "Must not be null")
+    //@NotEmpty(message = "Must not be null")
     private byte[] avatar;
 
 
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "type",nullable = false, unique = false)
-    @NotEmpty(message = "Must not be null")
-    private int type;
+    //@NotEmpty(message = "Must not be null")
+    private UserType type;
 
 
-    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender, List<Ticket> tickets) {
+    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , UserType type, Gender gender, List<Ticket> tickets) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

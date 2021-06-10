@@ -3,6 +3,7 @@ package com.example.TicketingSystem.service;
 import com.example.TicketingSystem.Repository.UserRepository;
 import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.User;
+import com.example.TicketingSystem.model.enums.UserType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,9 @@ public class UserService {
       return userRepository.findById(id).get();
  }
 
-   public List<User> getUserByType(int type){
-
+   public List<User> getUserByType(UserType type){
       List<User> users = new ArrayList<>();
-      userRepository.findAll().stream().filter(u -> u.getType() == type).forEach(users::add);
+      userRepository.findByType(type).forEach(users::add);
       return users;
 }
 
