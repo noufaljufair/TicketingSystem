@@ -28,13 +28,13 @@ public class Ticket extends Auditable {
 
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
 
 
-    @Column(name = "subject",nullable = false, unique = false)
+    @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
     private String subject;
 
@@ -42,14 +42,14 @@ public class Ticket extends Auditable {
 
 
     @Lob
-    @Column(name = "description",nullable = false, unique = false)
+    @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
     private String description;
 
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status",nullable = false, unique = false)
+    @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
     private TicketStatus status;
 
@@ -57,7 +57,7 @@ public class Ticket extends Auditable {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category",nullable = false, unique = false)
+    @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
     private Category category;
 
