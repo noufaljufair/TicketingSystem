@@ -75,7 +75,7 @@ public class User extends Auditable {
     private int type;
 
 
-    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender) {
+    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , int type, Gender gender, List<Ticket> tickets) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -86,4 +86,5 @@ public class User extends Auditable {
         this.gender = gender;
         this.tickets = tickets;
     }
+
 }
