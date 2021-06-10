@@ -21,7 +21,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table
+@Table(name = "USERS")
 @NoArgsConstructor
 public class User extends Auditable {
 
