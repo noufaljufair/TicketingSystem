@@ -13,7 +13,6 @@ import com.example.TicketingSystem.model.enums.UserType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
