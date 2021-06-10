@@ -63,10 +63,10 @@ public class User extends Auditable {
     private Gender gender;
 
 
-    @Lob
-    @Column(name = "avatar",nullable = false, unique = false, columnDefinition = "BLOB")
-    //@NotEmpty(message = "Must not be null")
-    private byte[] avatar;
+
+//    @Column(name = "avatar",nullable = false, unique = false, columnDefinition = "BLOB")
+//    //@NotEmpty(message = "Must not be null")
+//    private Integer [] avatar;
 
 
     @Enumerated(EnumType.STRING)
@@ -75,13 +75,13 @@ public class User extends Auditable {
     private UserType type;
 
 
-    public User(long id, String firstName , String lastName, String password, String email, byte [] avatar , UserType type, Gender gender, List<Ticket> tickets) {
+    public User(long id, String firstName , String lastName, String password, String email , UserType type, Gender gender, List<Ticket> tickets) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.avatar = avatar;
+        //this.avatar = avatar;
         this.type = type;
         this.gender = gender;
         this.tickets = tickets;
