@@ -61,7 +61,7 @@ public class TicketController {
 
     //get ticket by category
     @GetMapping("/category")
-    public List<Ticket> getTicketByCategory(@PathVariable Category category){
+    public List<Ticket> getTicketByCategory(@RequestParam Category category){
         return ticketService.getTicketByCategory(category);
     }
 

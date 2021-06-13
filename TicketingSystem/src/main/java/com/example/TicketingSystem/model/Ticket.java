@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.ManyToOne;
 
 
@@ -45,6 +47,7 @@ public class Ticket extends Auditable {
     @Lob
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
 
 

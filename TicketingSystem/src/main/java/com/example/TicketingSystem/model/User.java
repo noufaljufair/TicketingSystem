@@ -14,6 +14,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.ImageType;
+
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +69,7 @@ public class User extends Auditable {
 
 
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     @Column
     private byte [] avatar;
 
