@@ -50,7 +50,6 @@ public class Ticket extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
     private TicketStatus status;
 
 
@@ -58,7 +57,6 @@ public class Ticket extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
     private Category category;
 
 
