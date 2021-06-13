@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.example.TicketingSystem.model.enums.Category;
 import com.example.TicketingSystem.model.enums.TicketStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import javax.persistence.ManyToOne;
 public class Ticket extends Auditable {
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")@JsonBackReference
     private User user;
 
 

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.example.TicketingSystem.model.enums.Gender;
 import com.example.TicketingSystem.model.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,8 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends Auditable {
 
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(fetch = FetchType.EAGER ,mappedBy = "user")@JsonManagedReference
     private List<Ticket> tickets = new ArrayList<>();
 
 
