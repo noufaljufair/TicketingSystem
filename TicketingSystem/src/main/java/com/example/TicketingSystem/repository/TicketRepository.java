@@ -1,4 +1,4 @@
-package com.example.TicketingSystem.Repository;
+package com.example.TicketingSystem.repository;
 
 import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.enums.Category;

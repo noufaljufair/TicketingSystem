@@ -1,6 +1,6 @@
 package com.example.TicketingSystem.service;
 
-import com.example.TicketingSystem.Repository.UserRepository;
+import com.example.TicketingSystem.repository.UserRepository;
 import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.User;
 import com.example.TicketingSystem.model.enums.UserType;

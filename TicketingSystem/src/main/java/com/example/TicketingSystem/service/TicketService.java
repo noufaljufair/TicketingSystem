@@ -1,10 +1,9 @@
 package com.example.TicketingSystem.service;
 
-import com.example.TicketingSystem.Repository.TicketRepository;
+import com.example.TicketingSystem.repository.TicketRepository;
 import com.example.TicketingSystem.model.Ticket;
 import com.example.TicketingSystem.model.enums.Category;
 import com.example.TicketingSystem.model.enums.TicketStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

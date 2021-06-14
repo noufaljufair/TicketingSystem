@@ -1,13 +1,9 @@
-package com.example.TicketingSystem.Repository;
+package com.example.TicketingSystem.repository;
 
 import com.example.TicketingSystem.model.User;
 import com.example.TicketingSystem.model.enums.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User ,Long> {
