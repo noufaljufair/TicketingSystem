@@ -35,13 +35,13 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
-    @Size(min = 2, message ="First Name should have at least 2 characters")
+    @Size(min = 2, max = 15, message ="First Name must be between 2 and 15 characters")
     private String firstName;
 
 
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
-    @Size(min = 2, message ="Last Name should have at least 2 characters")
+    @Size(min = 2, max = 15, message ="Last Name must be between 2 and 15 characters")
     private String lastName;
 
 
