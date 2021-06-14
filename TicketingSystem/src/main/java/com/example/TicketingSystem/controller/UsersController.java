@@ -40,14 +40,6 @@ public class UsersController {
     @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable long id ){ userService.deleteUser(id); }
 
-
-   //get Ticket by user ID
-    @GetMapping("/{id}/tickets")
-    public List<Ticket> getTicketsByUserId(@PathVariable long id){
-        return userService.getTicketByUserId(id);
-    }
-
-
 //get all users
     @GetMapping
     public List<User> getAllUsers(){ return userService.getAllUsers();}
