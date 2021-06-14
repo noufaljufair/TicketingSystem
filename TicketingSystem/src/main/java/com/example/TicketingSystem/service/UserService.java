@@ -54,18 +54,4 @@ public class UserService {
       userRepository.deleteById(id);
    }
 
-
-
-
-   public List<Ticket> getTicketByUserId(long id){
-      List<Ticket> tickets = new ArrayList<>();
-      userRepository.findById(id).get().getTickets();
-      return tickets;
-   }
-
-
-
-
-
-
 }

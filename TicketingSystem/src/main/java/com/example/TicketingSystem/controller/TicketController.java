@@ -66,10 +66,14 @@ public class TicketController {
     }
 
 
-    //get ticker by status
+
     @GetMapping("/status")
     public List<Ticket> getTicketByStatus(@RequestParam TicketStatus status){
         return ticketService.getTicketByStatus(status);
     }
 
+    @GetMapping("/user/{id}")
+    public List<Ticket> getTicketByUserId(@PathVariable long id){
+        return ticketService.getTicketByUserId(id);
+    }
 }

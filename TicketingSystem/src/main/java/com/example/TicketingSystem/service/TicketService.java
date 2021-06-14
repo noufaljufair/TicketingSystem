@@ -28,10 +28,6 @@ public class TicketService {
         return ticketRepository.findById(id).get();
     }
 
-
-
-
-
     public List<Ticket> getTicketByCategory(Category category){
         List<Ticket> tickets = new ArrayList<>();
         ticketRepository.findByCategory(category).forEach(tickets::add);
@@ -42,6 +38,10 @@ public class TicketService {
         List<Ticket> tickets = new ArrayList<>();
         ticketRepository.findByStatus(status).forEach(tickets::add);
         return tickets;
+    }
+
+    public List<Ticket> getTicketByUserId(long id){
+        return ticketRepository.findByUserId(id);
     }
 
     public void addTicket(Ticket ticket){
