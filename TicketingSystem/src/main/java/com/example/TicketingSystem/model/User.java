@@ -1,13 +1,5 @@
 package com.example.TicketingSystem.model;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-
 import com.example.TicketingSystem.model.enums.Gender;
 import com.example.TicketingSystem.model.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -15,9 +7,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.type.ImageType;
 
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +35,13 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
+    @Size(min = 2, message ="First Name should have at least 2 characters")
     private String firstName;
 
 
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
+    @Size(min = 2, message ="Last Name should have at least 2 characters")
     private String lastName;
 
 
@@ -59,6 +55,7 @@ public class User extends Auditable {
 
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Must not be null")
+    @Email
     private String email;
 
 
