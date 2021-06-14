@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 @Entity
@@ -34,18 +31,18 @@ public class User extends Auditable {
     private Long id;
 
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
+    @NotBlank(message = " First name must not be blank")
     @Size(min = 2, max = 15, message ="First Name must be between 2 and 15 characters")
     private String firstName;
 
 
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
+    @NotBlank(message = " Last name must not be blank")
     @Size(min = 2, max = 15, message ="Last Name must be between 2 and 15 characters")
     private String lastName;
 
 
-
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}", message = "Password must be at least 8 characters, one uppercase, one lowercase and one digit at least")
     @Column(nullable = false)
     @NotEmpty(message = "Must not be null")
     private String password;
@@ -54,7 +51,7 @@ public class User extends Auditable {
 
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "Must not be null")
+    @NotBlank(message = " Email  must not be blank")
     @Email
     private String email;
 
