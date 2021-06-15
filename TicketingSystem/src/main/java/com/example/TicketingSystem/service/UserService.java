@@ -12,15 +12,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @Service
 @Slf4j
 public class UserService {
 
+   private final UserRepository userRepository;
 
-   @Autowired
-   private UserRepository userRepository;
-
+   public UserService(UserRepository userRepository){
+      this.userRepository = userRepository;
+   }
 
 
    public List<User> getAllUsers(){

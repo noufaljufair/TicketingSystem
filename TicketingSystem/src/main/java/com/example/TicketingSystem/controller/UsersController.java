@@ -1,17 +1,16 @@
 package com.example.TicketingSystem.controller;
 
 
-import com.example.TicketingSystem.model.Ticket;
+
 import com.example.TicketingSystem.model.User;
 import com.example.TicketingSystem.service.UserService;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-//import org.springframework.security.authentication.AuthenticationManager;
 
 
 @RestController
@@ -26,13 +25,13 @@ public class UsersController {
 
 //create user
     @PostMapping
-    public void addUser(@RequestBody User user){
+    public void addUser(@Valid @RequestBody User user){
         userService.addUser(user);
     }
 
 //updateUser
     @PutMapping(value = "/{id}")
-    public void updateUser(@RequestBody User user , @PathVariable long id ){
+    public void updateUser(@Valid @RequestBody User user , @PathVariable long id ){
         userService.updateUser(user);
     }
 

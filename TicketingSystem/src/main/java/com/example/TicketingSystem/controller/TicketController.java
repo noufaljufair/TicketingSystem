@@ -2,12 +2,14 @@ package com.example.TicketingSystem.controller;
 
 
 
-import com.example.TicketingSystem.model.Ticket;
+
 import com.example.TicketingSystem.model.enums.Category;
 import com.example.TicketingSystem.model.enums.TicketStatus;
 import com.example.TicketingSystem.service.TicketService;
 import org.springframework.web.bind.annotation.*;
+import com.example.TicketingSystem.model.Ticket;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -38,14 +40,14 @@ public class TicketController {
 
     //create new ticket
     @PostMapping
-    public void addTicket(@RequestBody Ticket ticket){
+    public void addTicket(@Valid @RequestBody Ticket ticket){
          ticketService.addTicket(ticket);
     }
 
 
     //update ticket
     @PutMapping(value = "/{id}")
-    public void updateTicket(@RequestBody Ticket ticket , @PathVariable long id ){
+    public void updateTicket(@Valid @RequestBody Ticket ticket , @PathVariable long id ){
         ticketService.updateTicket(ticket);
     }
 
