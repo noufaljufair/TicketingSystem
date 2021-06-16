@@ -31,14 +31,14 @@ public class User extends Auditable {
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank(message = " First name must not be blank")
-    @Size(min = 2, max = 15, message ="First Name must be between 2 and 15 characters")
+    @NotBlank(message = "{error.user.firstname.required}")
+    @Size(min = 2, max = 15, message ="{error.user.firstname.size}")
     private String firstName;
 
 
     @Column(nullable = false)
-    @NotBlank(message = " Last name must not be blank")
-    @Size(min = 2, max = 15, message ="Last Name must be between 2 and 15 characters")
+    @NotBlank(message = "{error.user.lastname.required}")
+    @Size(min = 2, max = 15, message ="{error.user.lastname.size}")
     private String lastName;
 
 
