@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
@@ -23,45 +23,31 @@ public class Ticket extends Auditable {
     @JoinColumn(name = "user_id")@JsonBackReference
     private User user;
 
-
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
 
-
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
-    @Size(min = 2, max = 30, message ="Subject must be between 2 and 30 characters")
+    @NotBlank(message = "{error.ticket.subject.required}")
+    @Size(min = 2, max = 30, message ="{error.ticket.subject.size}")
     private String subject;
-
-
-
 
     @Lob
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
+    @NotBlank(message = "{error.ticket.description.required}")
     @Type(type = "org.hibernate.type.TextType")
-    @Size(min = 10, message ="Description should have at least 10 characters")
+    @Size(min = 10, message ="{error.ticket.description.size}")
     private String description;
-
-
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TicketStatus status;
 
-
-
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Category category;
-
-
-
-
 
     public Ticket(User user, long id, String subject , String description, TicketStatus status, Category category) {
         this.user = user;
@@ -70,6 +56,5 @@ public class Ticket extends Auditable {
         this.description = description;
         this.status = status;
         this.category = category;
-
     }
 }

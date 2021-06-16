@@ -19,10 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends Auditable {
 
-
     @OneToMany(fetch = FetchType.EAGER ,mappedBy = "user")@JsonManagedReference
     private List<Ticket> tickets = new ArrayList<>();
-
 
     @Id
     @Column(nullable = false)
@@ -35,44 +33,33 @@ public class User extends Auditable {
     @Size(min = 2, max = 15, message ="{error.user.firstname.size}")
     private String firstName;
 
-
     @Column(nullable = false)
     @NotBlank(message = "{error.user.lastname.required}")
     @Size(min = 2, max = 15, message ="{error.user.lastname.size}")
     private String lastName;
 
-
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}", message = "Password must be at least 8 characters, one uppercase, one lowercase and one digit at least")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}", message = "{error.user.password.invalidPattern}")
     @Column(nullable = false)
-    @NotEmpty(message = "Must not be null")
+    @NotEmpty(message = "{error.user.password.required}")
     private String password;
 
-
-
-
     @Column(nullable = false, unique = true)
-    @NotBlank(message = " Email  must not be blank")
-    @Email
+    @NotBlank(message = "{error.user.email.required}")
+    @Email(message="{error.user.email.invalid}")
     private String email;
-
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    //@NotEmpty(message = "Must not be null")
     private Gender gender;
-
 
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     @Column
     private byte [] avatar;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    //@NotEmpty(message = "Must not be null")
     private UserType type;
-
 
     public User(long id, String firstName , String lastName, String password, String email , byte [] avatar, UserType type, Gender gender, List<Ticket> tickets) {
         this.id = id;
