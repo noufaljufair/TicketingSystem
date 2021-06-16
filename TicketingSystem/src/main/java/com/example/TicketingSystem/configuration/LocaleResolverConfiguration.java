@@ -19,7 +19,7 @@ public class LocaleResolverConfiguration implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver(){
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.forLanguageTag("ar"));
+        cookieLocaleResolver.setDefaultLocale(new Locale("ar"));
         cookieLocaleResolver.setCookieName("language");
 
         return cookieLocaleResolver;
@@ -43,6 +43,7 @@ public class LocaleResolverConfiguration implements WebMvcConfigurer {
         resourceBundleMessageSource.setBasename("i18n/messages");
         resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         resourceBundleMessageSource.setUseCodeAsDefaultMessage(true);
+        resourceBundleMessageSource.setDefaultLocale(new Locale("ar"));
         return resourceBundleMessageSource;
     }
 
