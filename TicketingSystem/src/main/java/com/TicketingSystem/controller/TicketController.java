@@ -4,9 +4,9 @@ package com.TicketingSystem.controller;
 
 
 import com.TicketingSystem.model.Ticket;
-import com.TicketingSystem.service.TicketService;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
+import com.TicketingSystem.service.TicketService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +28,26 @@ public class TicketController {
     public List<Ticket> getAllTickets(){
         return ticketService.getAllTickets();
     }
+
+
+
+    @GetMapping("/sort_asc")
+    public List<Ticket> sortByLastModifiedDateAsc(){
+        return ticketService.sortByLastModifiedDateAsc();
+    }
+
+
+
+    @GetMapping("/sort_des")
+    public List<Ticket> sortByLastModifiedDateDes(){
+        return ticketService.sortByLastModifiedDateDes();
+    }
+
+    @GetMapping("/subject")
+    public Ticket getTicketBySubject(@RequestParam String subject){
+        return ticketService.getTicketBySubject(subject);
+    }
+
 
 
     //get ticket by id

@@ -14,5 +14,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByUserId(Long id);
 
+    Ticket findBySubject(String subject);
+
+ //List<Ticket> findAllOrderByLastModifiedDate(LocalDateTime lastModifiedDate);
+
 
 }

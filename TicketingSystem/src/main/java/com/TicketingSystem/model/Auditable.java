@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)//to configure AuditingEntityListener which contains the @PrePersist and @PreUpdate methods in order to capture auditing information
 @Data
 public abstract class Auditable {
+
     @CreatedBy
     @Column(updatable = false)
     protected String createdBy;

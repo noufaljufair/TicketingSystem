@@ -1,12 +1,15 @@
 package com.TicketingSystem.service;
 
+import com.TicketingSystem.model.Auditable;
 import com.TicketingSystem.model.Ticket;
-import com.TicketingSystem.repository.TicketRepository;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
+import com.TicketingSystem.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -54,4 +57,33 @@ public class TicketService {
     public void deleteTicket(long ticketId){
         ticketRepository.deleteById(ticketId);
     }
+
+
+//not finalized yet
+ public List<Ticket> sortByLastModifiedDateAsc(){
+     List<Ticket> tickets = new ArrayList<>();
+     ticketRepository.findAll().forEach(tickets::add);
+     Collections.sort(tickets , Comparator.comparing(Auditable::getLastModifiedDate));
+     return tickets;
+
+ }
+
+    public List<Ticket> sortByLastModifiedDateDes(){
+        List<Ticket> tickets = new ArrayList<>();
+        ticketRepository.findAll().forEach(tickets::add);
+        Collections.sort(tickets , Comparator.comparing(Auditable::getLastModifiedDate));
+        Collections.reverse(tickets);
+        return tickets;
+
+    }
+
+
+    public Ticket getTicketBySubject(String subject){
+
+        return ticketRepository.findBySubject(subject);
+
+    }
+
+
+
 }
