@@ -1,5 +1,6 @@
-package com.TicketingSystem.exception;
+package com.TicketingSystem.dto;
 
+import com.TicketingSystem.exception.ErrorModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
