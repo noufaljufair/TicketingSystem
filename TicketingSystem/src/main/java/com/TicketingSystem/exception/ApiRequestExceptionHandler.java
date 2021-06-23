@@ -1,21 +1,14 @@
 package com.TicketingSystem.exception;
 
 import com.TicketingSystem.configuration.Translator;
-import com.TicketingSystem.dto.ErrorResponse;
+import com.TicketingSystem.dto.response.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 

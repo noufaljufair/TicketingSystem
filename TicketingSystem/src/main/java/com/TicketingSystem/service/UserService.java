@@ -4,7 +4,10 @@ import com.TicketingSystem.model.User;
 import com.TicketingSystem.repository.UserRepository;
 import com.TicketingSystem.model.enums.UserType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +41,11 @@ public class UserService {
       return users;
 }
 
-
+   @Transactional(isolation = Isolation.READ_COMMITTED)
    public void addUser(User user){
+      if(doesEmailExists(user.getEmail()))
+         throw new DataIntegrityViolationException("", new Throwable("duplicate email"));
+
       userRepository.save(user);
    }
 
@@ -50,6 +56,10 @@ public class UserService {
 
    public void deleteUser(long id){
       userRepository.deleteById(id);
+   }
+
+   public boolean doesEmailExists(String email){
+      return userRepository.findByEmail(email).isPresent();
    }
 
 }

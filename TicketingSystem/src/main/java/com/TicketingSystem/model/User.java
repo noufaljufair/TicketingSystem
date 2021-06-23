@@ -38,9 +38,9 @@ public class User extends Auditable {
     @Size(min = 2, max = 15, message ="{error.user.lastname.size}")
     private String lastName;
 
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}", message = "{error.user.password.invalidPattern}")
     @Column(nullable = false)
     @NotEmpty(message = "{error.user.password.required}")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}", message = "{error.user.password.invalidPattern}")
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -48,8 +48,9 @@ public class User extends Auditable {
     @Email(message="{error.user.email.invalid}")
     private String email;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Lob
@@ -57,8 +58,9 @@ public class User extends Auditable {
     @Column
     private byte [] avatar;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserType type;
 
     public User(long id, String firstName , String lastName, String password, String email , byte [] avatar, UserType type, Gender gender, List<Ticket> tickets) {

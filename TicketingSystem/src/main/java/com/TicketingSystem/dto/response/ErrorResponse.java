@@ -1,4 +1,4 @@
-package com.TicketingSystem.dto;
+package com.TicketingSystem.dto.response;
 
 import com.TicketingSystem.exception.ErrorModel;
 import lombok.AllArgsConstructor;
