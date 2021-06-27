@@ -5,6 +5,7 @@ import com.TicketingSystem.repository.UserRepository;
 import com.TicketingSystem.model.enums.UserType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +19,11 @@ import java.util.List;
 public class UserService {
 
    private final UserRepository userRepository;
+   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-   public UserService(UserRepository userRepository){
+   public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
       this.userRepository = userRepository;
+      this.bCryptPasswordEncoder = bCryptPasswordEncoder;
    }
 
 
@@ -46,6 +49,7 @@ public class UserService {
       if(doesEmailExists(user.getEmail()))
          throw new DataIntegrityViolationException("", new Throwable("duplicate email"));
 
+      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
       userRepository.save(user);
    }
 

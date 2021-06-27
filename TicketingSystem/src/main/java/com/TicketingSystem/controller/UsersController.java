@@ -20,19 +20,11 @@ import java.util.List;
 public class UsersController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
 
-    public UsersController(UserService userService, UserMapper userMapper){
+    public UsersController(UserService userService){
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
-//create user
-    @PostMapping
-    public void addUser(@Valid @RequestBody RegistrationRequest registrationRequest){
-        User user = userMapper.toUser(registrationRequest);
-        userService.addUser(user);
-    }
 
 //updateUser
     @PutMapping(value = "/{id}")
