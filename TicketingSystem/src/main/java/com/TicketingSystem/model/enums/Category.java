@@ -1,6 +1,9 @@
 package com.TicketingSystem.model.enums;
 
-public enum Category {
-    complaint, suggestion, other
+import jdk.jshell.SourceCodeAnalysis;
 
+public enum Category {
+    COMPLAINT,
+    SUGGESTION,
+    OTHER
 }

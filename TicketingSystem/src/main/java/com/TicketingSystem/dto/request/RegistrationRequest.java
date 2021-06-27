@@ -32,7 +32,4 @@ public class RegistrationRequest {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    @Enumerated(EnumType.STRING)
-    private UserType type;
 }
