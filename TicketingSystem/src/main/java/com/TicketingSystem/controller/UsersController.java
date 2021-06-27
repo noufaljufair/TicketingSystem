@@ -2,6 +2,8 @@ package com.TicketingSystem.controller;
 
 
 
+import com.TicketingSystem.dto.mappers.UserMapper;
+import com.TicketingSystem.dto.request.RegistrationRequest;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
 
@@ -18,14 +20,17 @@ import java.util.List;
 public class UsersController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UsersController(UserService userService){
+    public UsersController(UserService userService, UserMapper userMapper){
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
 //create user
     @PostMapping
-    public void addUser(@Valid @RequestBody User user){
+    public void addUser(@Valid @RequestBody RegistrationRequest registrationRequest){
+        User user = userMapper.toUser(registrationRequest);
         userService.addUser(user);
     }
 
