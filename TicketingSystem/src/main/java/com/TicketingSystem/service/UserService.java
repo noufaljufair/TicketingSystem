@@ -19,20 +19,16 @@ import java.util.List;
 public class UserService {
 
    private final UserRepository userRepository;
-   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-   public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+   public UserService(UserRepository userRepository){
       this.userRepository = userRepository;
-      this.bCryptPasswordEncoder = bCryptPasswordEncoder;
    }
-
 
    public List<User> getAllUsers(){
       List<User> users = new ArrayList<>();
       userRepository.findAll().forEach(users::add);
       return users;
    }
-
 
    public User getUserById(long id){
       return userRepository.findById(id).get();
@@ -44,15 +40,6 @@ public class UserService {
       return users;
 }
 
-   @Transactional(isolation = Isolation.READ_COMMITTED)
-   public void addUser(User user){
-      if(doesEmailExists(user.getEmail()))
-         throw new DataIntegrityViolationException("", new Throwable("duplicate email"));
-
-      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-      userRepository.save(user);
-   }
-
    public void updateUser(User user){
       userRepository.save(user);
    }
@@ -61,9 +48,4 @@ public class UserService {
    public void deleteUser(long id){
       userRepository.deleteById(id);
    }
-
-   public boolean doesEmailExists(String email){
-      return userRepository.findByEmail(email).isPresent();
-   }
-
 }
