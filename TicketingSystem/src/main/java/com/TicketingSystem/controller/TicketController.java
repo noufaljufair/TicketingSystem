@@ -7,11 +7,10 @@ import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
 import com.TicketingSystem.service.TicketService;
-
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -88,8 +87,6 @@ public class TicketController {
         return ticketService.getTicketByCategory(category);
     }
 
-
-
     @GetMapping("/status")
     public List<Ticket> getTicketByStatus(@RequestParam TicketStatus status){
         return ticketService.getTicketByStatus(status);
@@ -99,4 +96,6 @@ public class TicketController {
     public List<Ticket> getTicketByUserId(@PathVariable long id){
         return ticketService.getTicketByUserId(id);
     }
+
+
 }
