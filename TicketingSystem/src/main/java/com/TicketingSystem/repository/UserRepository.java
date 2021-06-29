@@ -1,8 +1,7 @@
 package com.TicketingSystem.repository;
 
 import com.TicketingSystem.model.User;
-import com.TicketingSystem.model.enums.UserType;
-import org.springframework.data.domain.Example;
+import com.TicketingSystem.model.enums.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findByEmail(String email);
 
-    List<User> findByType(UserType type);
+    List<User> findByRole(UserRole role);
 
 
 

@@ -1,7 +1,7 @@
 package com.TicketingSystem.model;
 
 import com.TicketingSystem.model.enums.Gender;
-import com.TicketingSystem.model.enums.UserType;
+import com.TicketingSystem.model.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
@@ -61,16 +61,16 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserType type;
+    private UserRole role;
 
-    public User(long id, String firstName , String lastName, String password, String email , byte [] avatar, UserType type, Gender gender, List<Ticket> tickets) {
+    public User(long id, String firstName , String lastName, String password, String email , byte [] avatar, UserRole role, Gender gender, List<Ticket> tickets) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
         this.avatar = avatar;
-        this.type = type;
+        this.role = role;
         this.gender = gender;
         this.tickets = tickets;
     }

@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "type", constant = "USER")
+    @Mapping(target = "role", constant = "USER")
     User toUser(RegistrationRequest registrationRequest);
 }

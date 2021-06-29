@@ -1,10 +1,10 @@
 package com.TicketingSystem.service;
 
-import com.TicketingSystem.model.User;
+import com.TicketingSystem.configuration.Translator;
 import com.TicketingSystem.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import com.TicketingSystem.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +34,11 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return null;
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new UsernameNotFoundException(Translator.toLocale("error.user.auth.notFound")));
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(), user.getRole().getGrantedAuthorities());
     }
 
     public boolean doesEmailExists(String email){

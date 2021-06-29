@@ -1,7 +1,6 @@
 package com.TicketingSystem.dto.request;
 
 import com.TicketingSystem.model.enums.Gender;
-import com.TicketingSystem.model.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
