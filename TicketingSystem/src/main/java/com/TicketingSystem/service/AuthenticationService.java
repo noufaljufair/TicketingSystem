@@ -41,10 +41,11 @@ public class AuthenticationService implements UserDetailsService {
     public void authenticate(String email, String password){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException(Translator.toLocale("error.user.auth.notFound")));
+                .orElseThrow(()-> new UsernameNotFoundException(Translator.toLocale("AbstractUserDetailsAuthenticationProvider.badCredentials")));
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), user.getRole().getGrantedAuthorities());

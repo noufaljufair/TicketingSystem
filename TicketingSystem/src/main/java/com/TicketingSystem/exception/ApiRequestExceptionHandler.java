@@ -46,4 +46,9 @@ public class ApiRequestExceptionHandler{
         ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(errorMessage).build();
         return new ResponseEntity(errorResponse, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity handleBadCredentialsException(BadCredentialsException exception) {
+        return new ResponseEntity(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }
