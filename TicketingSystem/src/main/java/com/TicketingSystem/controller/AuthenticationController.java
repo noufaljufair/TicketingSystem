@@ -8,12 +8,11 @@ import com.TicketingSystem.service.AuthenticationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 
 @RestController
 public class AuthenticationController {
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
     private final UserMapper userMapper;
 
     public AuthenticationController(UserMapper userMapper, AuthenticationService authenticationService){

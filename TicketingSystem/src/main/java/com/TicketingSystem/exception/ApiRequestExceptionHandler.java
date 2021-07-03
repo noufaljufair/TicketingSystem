@@ -1,15 +1,14 @@
 package com.TicketingSystem.exception;
 
 import com.TicketingSystem.configuration.Translator;
+import com.TicketingSystem.dto.response.ApiResponse;
 import com.TicketingSystem.dto.response.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,36 +18,37 @@ public class ApiRequestExceptionHandler{
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
-        List<ErrorModel> errorMessage = exception.getBindingResult()
+        List<FieldErrorModel> errorMessage = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(error ->
-            new ErrorModel(error.getField(), error.getRejectedValue(), error.getDefaultMessage()))
+            new FieldErrorModel(error.getField(), error.getRejectedValue(), error.getDefaultMessage()))
                 .distinct()
                 .collect(Collectors.toList());
 
         ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(errorMessage).build();
 
-        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ApiResponse(false, errorResponse), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException exception){
         String message = exception.getRootCause().getMessage();
-        List<ErrorModel> errorMessage;
+        List<FieldErrorModel> errorMessage;
 
         if(message != null && message.contains("duplicate") && message.contains("email")){
-            errorMessage = Arrays.asList(new ErrorModel("email","", Translator.toLocale("error.user.email.inUse")));
+            errorMessage = Arrays.asList(new FieldErrorModel("email","", Translator.toLocale("error.user.email.inUse")));
         }else{
-            errorMessage = Arrays.asList(new ErrorModel("","",message));
+            errorMessage = Arrays.asList(new FieldErrorModel("","",message));
         }
 
         ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(errorMessage).build();
-        return new ResponseEntity(errorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity(new ApiResponse(false, errorResponse), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity handleBadCredentialsException(BadCredentialsException exception) {
-        return new ResponseEntity(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+        ApiResponse response = new ApiResponse(false, exception.getMessage());
+        return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
     }
 }

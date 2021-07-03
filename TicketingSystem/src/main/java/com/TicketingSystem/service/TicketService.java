@@ -79,11 +79,6 @@ public class TicketService {
 
 
     public Ticket getTicketBySubject(String subject){
-
         return ticketRepository.findBySubject(subject);
-
     }
-
-
-
 }

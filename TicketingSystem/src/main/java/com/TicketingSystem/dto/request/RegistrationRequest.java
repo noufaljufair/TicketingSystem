@@ -2,14 +2,14 @@ package com.TicketingSystem.dto.request;
 
 import com.TicketingSystem.model.enums.Gender;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class RegistrationRequest {
 

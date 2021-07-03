@@ -1,13 +1,13 @@
 package com.TicketingSystem.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
-@Data
+@Getter
 public class AuthenticationRequest {
 
     @NotBlank(message = "{error.user.email.required}")
