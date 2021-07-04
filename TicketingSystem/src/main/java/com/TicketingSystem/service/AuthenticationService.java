@@ -4,13 +4,12 @@ import com.TicketingSystem.configuration.Translator;
 import com.TicketingSystem.repository.UserRepository;
 
 
+import com.TicketingSystem.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.TicketingSystem.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,10 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthenticationService implements UserDetailsService {
     private final UserRepository userRepository;
+    private JwtUtil jwtUtil;
     private AuthenticationManager authenticationManager;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthenticationService(UserRepository  userRepository){
+    public AuthenticationService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
@@ -39,12 +39,12 @@ public class AuthenticationService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void authenticate(String email, String password){
+    public String authenticate(String email, String password){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
         final UserDetails user = loadUserByUsername(email);
 
-        //return jwtUtil.gen(ser);
+        return jwtUtil.generateToken(user);
     }
 
     @Override
@@ -68,5 +68,10 @@ public class AuthenticationService implements UserDetailsService {
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
+    }
+
+    @Autowired
+    public void setJwtUtil(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 }

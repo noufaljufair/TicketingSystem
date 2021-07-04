@@ -3,8 +3,10 @@ package com.TicketingSystem.controller;
 import com.TicketingSystem.dto.mappers.UserMapper;
 import com.TicketingSystem.dto.request.AuthenticationRequest;
 import com.TicketingSystem.dto.request.RegistrationRequest;
+import com.TicketingSystem.dto.response.AuthenticationResponse;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.AuthenticationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +29,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @RequestBody AuthenticationRequest authenticationRequest){
-        authenticationService.authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authenticationRequest){
+        String token = authenticationService.authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 }
