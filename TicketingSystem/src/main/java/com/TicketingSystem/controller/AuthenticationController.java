@@ -7,10 +7,14 @@ import com.TicketingSystem.dto.response.AuthenticationResponse;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 
 @RestController
 public class AuthenticationController {
@@ -22,15 +26,25 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public void registerUser(@Valid @RequestBody RegistrationRequest registrationRequest){
         User user = userMapper.toUser(registrationRequest);
         authenticationService.registerUser(user);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authenticationRequest){
         String token = authenticationService.authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
+
+    @PostMapping("logout")
+    public void logout(HttpServletRequest request) throws ServletException {
+        final String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            authenticationService.logout(bearerToken.substring(7));
+            request.logout();
+        }
+    }
+
 }

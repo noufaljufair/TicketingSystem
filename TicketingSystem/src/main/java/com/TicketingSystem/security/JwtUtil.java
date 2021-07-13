@@ -18,7 +18,11 @@ public class JwtUtil {
     private String secret;
     private int jwtExpirationInMs;
     private int refreshExpirationDateInMs;
+    private final RedisUtils redisUtils;
 
+    public JwtUtil(RedisUtils redisUtils){
+        this.redisUtils = redisUtils;
+    }
     @Value("${jwt.secret}")
     public void setSecret(String secret) {
         this.secret = secret;
@@ -57,7 +61,7 @@ public class JwtUtil {
     public boolean validateToken(String token, UserDetails user) {
         try {
             String email = extractEmail(token);
-            return email.equals(user.getUsername()) && !isTokenExpired(token);
+            return !redisUtils.hasKey(token) && email.equals(user.getUsername()) && !isTokenExpired(token);
         } catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
         } catch (ExpiredJwtException e) {
@@ -75,7 +79,7 @@ public class JwtUtil {
         return expirationDate.before(new Date());
     }
 
-    private Date extractExpirationDate(String token){
+    public Date extractExpirationDate(String token){
         Claims claims = getAllClaims(token);
         return claims.getExpiration();
     }
@@ -83,4 +87,5 @@ public class JwtUtil {
     private Claims getAllClaims(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
+
 }
