@@ -49,12 +49,14 @@ public class JwtUtil {
             claims.put("isClient", true);
         }
 
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getUsername(), false);
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    public String doGenerateToken(Map<String, Object> claims, String subject, boolean isRefreshToken) {
+        int expirationInMs = isRefreshToken ? refreshExpirationDateInMs : jwtExpirationInMs;
+
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationInMs))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 

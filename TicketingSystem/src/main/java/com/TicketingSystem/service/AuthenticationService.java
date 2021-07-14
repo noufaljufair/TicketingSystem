@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 
 @Service
 public class AuthenticationService implements UserDetailsService {
@@ -80,5 +82,9 @@ public class AuthenticationService implements UserDetailsService {
     @Autowired
     public void setJwtUtil(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
+    }
+
+    public String generateRefreshToken(Map<String, Object> claims, String subject) {
+        return jwtUtil.doGenerateToken(claims, subject, true);
     }
 }

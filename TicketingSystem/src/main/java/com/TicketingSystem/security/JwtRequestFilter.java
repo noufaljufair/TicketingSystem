@@ -31,7 +31,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
       try {
-
           String jwtToken = extractJwt(httpServletRequest);
 
           if(StringUtils.hasText(jwtToken)){
@@ -41,7 +40,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
               if (jwtUtil.validateToken(jwtToken, userDetails)){
                   UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
                           UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
                   SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
               }
           }
@@ -49,7 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
           String isRefreshToken = httpServletRequest.getHeader("isRefreshToken");
           String requestURL = httpServletRequest.getRequestURL().toString();
 
-          if (isRefreshToken != null && isRefreshToken.equals("true") && requestURL.contains("refreshtoken")) {
+          if (isRefreshToken != null && isRefreshToken.equals("true") && requestURL.contains("refreshToken")) {
               allowForRefreshToken(e, httpServletRequest);
           } else {
               httpServletRequest.setAttribute("exception", e);
