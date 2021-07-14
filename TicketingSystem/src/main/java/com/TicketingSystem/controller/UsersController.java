@@ -2,6 +2,7 @@ package com.TicketingSystem.controller;
 
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -23,13 +24,13 @@ public class UsersController {
         userService.updateUser(user);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")//admin
     public void deleteUser(@PathVariable long id ){ userService.deleteUser(id); }
 
-    @GetMapping
+    @GetMapping//admin
     public List<User> getAllUsers(){ return userService.getAllUsers();}
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")//admin
     public User getUserById(@PathVariable long id){ return userService.getUserById(id); }
 
 }

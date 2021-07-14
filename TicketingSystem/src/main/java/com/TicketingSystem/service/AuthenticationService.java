@@ -1,6 +1,7 @@
 package com.TicketingSystem.service;
 
 import com.TicketingSystem.configuration.Translator;
+import com.TicketingSystem.model.Principal;
 import com.TicketingSystem.repository.UserRepository;
 
 
@@ -56,9 +57,7 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new UsernameNotFoundException(Translator.toLocale("AbstractUserDetailsAuthenticationProvider.badCredentials")));
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(), user.getRole().getGrantedAuthorities());
+        return new Principal(user.getId(), user.getEmail(), user.getPassword(), user.getRole().getGrantedAuthorities());
     }
 
     public boolean doesEmailExists(String email){

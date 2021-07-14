@@ -1,11 +1,12 @@
 package com.TicketingSystem.configuration;
 
 import java.util.Optional;
+
+import com.TicketingSystem.model.Principal;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 public class AuditorAwareImpl implements AuditorAware<String> {
     @Override
@@ -20,6 +21,6 @@ public class AuditorAwareImpl implements AuditorAware<String> {
             return Optional.ofNullable("ROLE_ANONYMOUS");
         }
 
-        return Optional.ofNullable(((User) authentication.getPrincipal()).getUsername());
+        return Optional.ofNullable(((Principal) authentication.getPrincipal()).getUsername());
     }
 }

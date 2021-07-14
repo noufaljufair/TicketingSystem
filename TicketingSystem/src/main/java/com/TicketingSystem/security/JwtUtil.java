@@ -8,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class JwtUtil {
@@ -60,10 +57,10 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public boolean validateToken(String token, UserDetails user) {
+    public boolean validateToken(String token) {
         try {
-            String email = extractEmail(token);
-            return !redisUtils.hasKey(token) && email.equals(user.getUsername()) && !isTokenExpired(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return !redisUtils.hasKey(token) && !isTokenExpired(token);
         } catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
         } catch (ExpiredJwtException e) {
@@ -88,6 +85,26 @@ public class JwtUtil {
 
     private Claims getAllClaims(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    }
+
+
+    public List<SimpleGrantedAuthority> getRolesFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+        List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
+
+        Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+        Boolean isClient = claims.get("isClient", Boolean.class);
+
+        if (isAdmin != null && isAdmin) {
+            roles.add(new SimpleGrantedAuthority("ADMIN"));
+        }
+
+        if (isClient != null && isClient) {
+            roles.add(new SimpleGrantedAuthority("CLIENT"));
+        }
+        return roles;
+
     }
 
 }

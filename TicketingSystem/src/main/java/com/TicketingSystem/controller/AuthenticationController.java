@@ -8,7 +8,6 @@ import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.AuthenticationService;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,6 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
 
     public JwtRequestFilter(JwtUtil jwtUtil){
@@ -34,10 +34,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
           String jwtToken = extractJwt(httpServletRequest);
 
           if(StringUtils.hasText(jwtToken)){
-              String email = jwtUtil.extractEmail(jwtToken);
-              UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+              if (jwtUtil.validateToken(jwtToken)){
+                  UserDetails userDetails = new User(jwtUtil.extractEmail(jwtToken), "", jwtUtil.getRolesFromToken(jwtToken));
 
-              if (jwtUtil.validateToken(jwtToken, userDetails)){
                   UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
                           UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                   SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -80,10 +79,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Set the claims so that in controller we will be using it to create
         // new JWT
         request.setAttribute("claims", ex.getClaims());
-    }
-
-    @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
     }
 }
