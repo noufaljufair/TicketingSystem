@@ -2,7 +2,6 @@ package com.TicketingSystem.controller;
 
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -24,13 +23,13 @@ public class UsersController {
         userService.updateUser(user);
     }
 
-    @DeleteMapping(value = "/{id}")//admin
+    @DeleteMapping(value = "/{id}")//admin or that user, needs jwt work
     public void deleteUser(@PathVariable long id ){ userService.deleteUser(id); }
 
-    @GetMapping//admin
-    public List<User> getAllUsers(){ return userService.getAllUsers();}
+//    @GetMapping//not in req
+//    public List<User> getAllUsers(){ return userService.getAllUsers();}
 
-    @GetMapping("/{id}")//admin
+    @GetMapping("/{id}")//admin or that user
     public User getUserById(@PathVariable long id){ return userService.getUserById(id); }
 
 }

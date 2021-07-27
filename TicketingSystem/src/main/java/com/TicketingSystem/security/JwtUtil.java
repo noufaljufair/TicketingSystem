@@ -1,5 +1,7 @@
 package com.TicketingSystem.security;
 
+import com.TicketingSystem.model.Principal;
+import com.TicketingSystem.model.enums.UserRole;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,13 +42,13 @@ public class JwtUtil {
 
         Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
 
-        if (roles.contains(new SimpleGrantedAuthority("ADMIN"))) {
+        if (roles.contains(new SimpleGrantedAuthority(UserRole.ADMIN.getAuthority()))) {
             claims.put("isAdmin", true);
-        }else{
+        }else if (roles.contains(new SimpleGrantedAuthority(UserRole.CLIENT.getAuthority()))) {
             claims.put("isClient", true);
         }
 
-        return doGenerateToken(claims, userDetails.getUsername(), false);
+        return doGenerateToken(claims, ((Principal)userDetails).getStringId(), false);
     }
 
     public String doGenerateToken(Map<String, Object> claims, String subject, boolean isRefreshToken) {
@@ -68,9 +70,9 @@ public class JwtUtil {
         }
     }
 
-    public String extractEmail(String token) {
+    public long extractId(String token) {
         Claims claims = getAllClaims(token);
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
 
     private boolean isTokenExpired(String token){
@@ -97,12 +99,13 @@ public class JwtUtil {
         Boolean isClient = claims.get("isClient", Boolean.class);
 
         if (isAdmin != null && isAdmin) {
-            roles.add(new SimpleGrantedAuthority("ADMIN"));
+            roles.add(new SimpleGrantedAuthority(UserRole.ADMIN.getAuthority()));
         }
 
         if (isClient != null && isClient) {
-            roles.add(new SimpleGrantedAuthority("CLIENT"));
+            roles.add(new SimpleGrantedAuthority(UserRole.CLIENT.getAuthority()));
         }
+
         return roles;
 
     }

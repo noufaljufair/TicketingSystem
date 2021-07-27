@@ -1,6 +1,6 @@
 package com.TicketingSystem.model.enums;
 
-import com.TicketingSystem.model.User;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.HashSet;
@@ -26,8 +26,12 @@ public enum UserRole {
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toSet());
 
-        simpleGrantedAuthorities.add(new SimpleGrantedAuthority("Role_" + name()));
-
+        simpleGrantedAuthorities.add(new SimpleGrantedAuthority(getAuthority()));
         return simpleGrantedAuthorities;
     }
+
+    public String getAuthority(){
+        return "ROLE_" + name();
+    }
+
 }

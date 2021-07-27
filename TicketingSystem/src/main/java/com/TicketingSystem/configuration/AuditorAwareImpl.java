@@ -21,6 +21,6 @@ public class AuditorAwareImpl implements AuditorAware<String> {
             return Optional.ofNullable("ROLE_ANONYMOUS");
         }
 
-        return Optional.ofNullable(((Principal) authentication.getPrincipal()).getUsername());
+        return Optional.ofNullable(((Principal) authentication.getPrincipal()).getStringId());
     }
 }

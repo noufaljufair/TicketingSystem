@@ -12,6 +12,7 @@ import com.TicketingSystem.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,9 +47,8 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public String authenticate(String email, String password){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-
-        final UserDetails user = loadUserByUsername(email);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        final UserDetails user = (UserDetails) authentication.getPrincipal();
 
         return jwtUtil.generateToken(user);
     }
@@ -60,12 +60,16 @@ public class AuthenticationService implements UserDetailsService {
         return new Principal(user.getId(), user.getEmail(), user.getPassword(), user.getRole().getGrantedAuthorities());
     }
 
-    public boolean doesEmailExists(String email){
-        return userRepository.findByEmail(email).isPresent();
-    }
-
     public void logout(String token){
         redisUtils.save(token, jwtUtil.extractExpirationDate(token));
+    }
+
+    public String generateRefreshToken(Map<String, Object> claims, String subject) {
+        return jwtUtil.doGenerateToken(claims, subject, true);
+    }
+
+    private boolean doesEmailExists(String email){
+        return userRepository.findByEmail(email).isPresent();
     }
 
     @Autowired
@@ -83,7 +87,4 @@ public class AuthenticationService implements UserDetailsService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateRefreshToken(Map<String, Object> claims, String subject) {
-        return jwtUtil.doGenerateToken(claims, subject, true);
-    }
 }

@@ -17,8 +17,13 @@ public class Principal implements UserDetails, CredentialsContainer {
     private static final Log logger = LogFactory.getLog(User.class);
     private String password;
     private final long id;
-    private final String email;
+    private String email;
     private final Set<GrantedAuthority> authorities;
+
+    public Principal(long id, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
+    }
 
     public Principal(long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
@@ -85,7 +90,9 @@ public class Principal implements UserDetails, CredentialsContainer {
         return id;
     }
 
-
+    public String getStringId(){
+        return Long.toString(id);
+    }
     public boolean equals(Object obj) {
         return obj instanceof Principal ? email.equals(((Principal)obj).email) : false;
     }

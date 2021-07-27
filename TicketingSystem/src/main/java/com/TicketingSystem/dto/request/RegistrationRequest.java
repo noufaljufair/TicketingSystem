@@ -1,6 +1,7 @@
 package com.TicketingSystem.dto.request;
 
 import com.TicketingSystem.model.enums.Gender;
+import com.TicketingSystem.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,4 +32,8 @@ public class RegistrationRequest {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
 }

@@ -1,10 +1,16 @@
 package com.TicketingSystem.service;
 
 import com.TicketingSystem.model.Auditable;
+import com.TicketingSystem.model.Principal;
 import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
+import com.TicketingSystem.model.enums.UserRole;
 import com.TicketingSystem.repository.TicketRepository;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +26,21 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
     }
 
+    //✅
     public List<Ticket> getAllTickets(){
-        List<Ticket> tickets = new ArrayList<>();
-        ticketRepository.findAll().forEach(tickets::add);
-        return tickets;
+        return ticketRepository.findAll();
     }
 
+    //✅
+    public List<Ticket> getTicketBySubject(String subject){
+        return ticketRepository.findBySubject(subject);
+    }
+    //✅
+    public void updateTicketStatus(TicketStatus ticketStatus, long id){
+        ticketRepository.updateTicketStatus(ticketStatus, id);
+    }
+
+    @PostAuthorize("hasRole('ADMIN') or principal.getId() == returnObject.getUser().getId()")
     public Ticket getTicketById(long id){
         return ticketRepository.findById(id).get();
     }
@@ -50,9 +65,7 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
-    public void updateTicket(Ticket ticket){
-        ticketRepository.save(ticket);
-    }
+
 
     public void deleteTicket(long ticketId){
         ticketRepository.deleteById(ticketId);
@@ -77,8 +90,4 @@ public class TicketService {
 
     }
 
-
-    public Ticket getTicketBySubject(String subject){
-        return ticketRepository.findBySubject(subject);
-    }
 }

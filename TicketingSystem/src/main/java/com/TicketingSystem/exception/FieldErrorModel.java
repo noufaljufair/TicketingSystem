@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class FieldErrorModel {
+public class                FieldErrorModel {
     private String fieldName;
     private Object rejectedValue;
     private String message;

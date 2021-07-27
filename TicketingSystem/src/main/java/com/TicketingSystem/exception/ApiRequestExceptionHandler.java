@@ -3,6 +3,7 @@ package com.TicketingSystem.exception;
 import com.TicketingSystem.configuration.Translator;
 import com.TicketingSystem.dto.response.ApiResponse;
 import com.TicketingSystem.dto.response.ErrorResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,11 @@ public class ApiRequestExceptionHandler{
     public ResponseEntity handleBadCredentialsException(BadCredentialsException exception) {
         ApiResponse response = new ApiResponse(false, exception.getMessage());
         return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity handleInvalidFormatException(InvalidFormatException httpMessageNotReadableException){
+        String errorMessage = Translator.toLocale("error.invalidEnumValue");
+        return new ResponseEntity(new ApiResponse(false, errorMessage), HttpStatus.BAD_REQUEST);
     }
 }

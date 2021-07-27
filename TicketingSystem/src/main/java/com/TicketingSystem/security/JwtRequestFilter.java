@@ -1,14 +1,12 @@
 package com.TicketingSystem.security;
 
 
+import com.TicketingSystem.model.Principal;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,10 +33,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
           if(StringUtils.hasText(jwtToken)){
               if (jwtUtil.validateToken(jwtToken)){
-                  UserDetails userDetails = new User(jwtUtil.extractEmail(jwtToken), "", jwtUtil.getRolesFromToken(jwtToken));
+                  UserDetails userDetails = new Principal(jwtUtil.extractId(jwtToken), jwtUtil.getRolesFromToken(jwtToken));
 
                   UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
                           UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
                   SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
               }
           }
@@ -68,7 +67,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private void allowForRefreshToken(ExpiredJwtException ex, HttpServletRequest request) {
-
         // create a UsernamePasswordAuthenticationToken with null values.
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 null, null, null);
