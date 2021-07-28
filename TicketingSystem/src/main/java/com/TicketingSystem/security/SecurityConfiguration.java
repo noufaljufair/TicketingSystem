@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
                 .mvcMatchers("/register","/login").permitAll()
                 .mvcMatchers("**/admin/**").hasRole(UserRole.ADMIN.name())
+                .mvcMatchers("**/client/**").hasRole(UserRole.CLIENT.name())
                 .anyRequest().authenticated()
                 .and().logout().logoutUrl("logout")
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

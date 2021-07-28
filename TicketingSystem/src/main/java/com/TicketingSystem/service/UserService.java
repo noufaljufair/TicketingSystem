@@ -2,46 +2,37 @@ package com.TicketingSystem.service;
 
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.repository.UserRepository;
-import com.TicketingSystem.model.enums.UserRole;
+import com.TicketingSystem.security.JwtUtil;
+import com.TicketingSystem.security.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 @Slf4j
 public class UserService {
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final RedisUtils redisUtils;
 
-   private final UserRepository userRepository;
-
-   public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil, RedisUtils redisUtils){
       this.userRepository = userRepository;
+      this.jwtUtil = jwtUtil;
+      this.redisUtils = redisUtils;
    }
 
-   public List<User> getAllUsers(){
-      List<User> users = new ArrayList<>();
-      userRepository.findAll().forEach(users::add);
-      return users;
+    @PreAuthorize("principal.getId() == #id")
+    public void updateUser(User user, long id){
+        userRepository.save(user);
    }
-
-   public User getUserById(long id){
+    @PreAuthorize("hasRole('ADMIN') or principal.getId() == #id")
+    public User getUserById(long id){
       return userRepository.findById(id).get();
  }
 
-   public List<User> getUserByRole(UserRole role){
-      List<User> users = new ArrayList<>();
-      userRepository.findByRole(role).forEach(users::add);
-      return users;
-}
-
-   public void updateUser(User user){
-      userRepository.save(user);
-   }
-
-
-   public void deleteUser(long id){
-      userRepository.deleteById(id);
+    @PreAuthorize("principal.getId() == #id")
+    public void deleteUser(long id, String token){
+        redisUtils.save(token, jwtUtil.extractExpirationDate(token));
+        userRepository.deleteById(id);
    }
 }

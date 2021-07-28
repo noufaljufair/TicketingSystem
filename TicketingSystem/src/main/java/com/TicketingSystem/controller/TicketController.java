@@ -33,28 +33,30 @@ public class TicketController {
         ticketService.updateTicketStatus(ticketStatus, id);
     }
 
-    @GetMapping("/{id}")//admin or owner
+    @GetMapping("/{id}")//admin or owner✅
     public Ticket getTicketById(@PathVariable long id){
         return ticketService.getTicketById(id);
     }
 
+    //✅
     @PostMapping("/client")//client
     public void addTicket(@Valid @RequestBody Ticket ticket){
          ticketService.addTicket(ticket);
     }
 
-
-    @DeleteMapping(value = "client/{id}")//owner
+    //✅
+    @DeleteMapping(value = "client/{id}")//owner✅
     public void deleteTicket(@PathVariable long id ){
         ticketService.deleteTicket(id);
     }
 
+    //✅
     @GetMapping("/user/{id}")//admin or owner
     public List<Ticket> getTicketByUserId(@PathVariable long id){
         return ticketService.getTicketByUserId(id);
     }
 
-    //    @GetMapping("/category")
+//    @GetMapping("/category")
 //    public List<Ticket> getTicketByCategory(@RequestParam Category category){
 //        return ticketService.getTicketByCategory(category);
 //    }
@@ -64,7 +66,7 @@ public class TicketController {
 //        return ticketService.getTicketByStatus(status);
 //    }
 
-    //    @GetMapping("/sort_asc")
+//     @GetMapping("/sort_asc")
 //    public List<Ticket> sortByLastModifiedDateAsc(){
 //        return ticketService.sortByLastModifiedDateAsc();
 //    }

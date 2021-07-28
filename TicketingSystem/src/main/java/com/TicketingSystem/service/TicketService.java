@@ -1,16 +1,12 @@
 package com.TicketingSystem.service;
 
 import com.TicketingSystem.model.Auditable;
-import com.TicketingSystem.model.Principal;
 import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
-import com.TicketingSystem.model.enums.UserRole;
 import com.TicketingSystem.repository.TicketRepository;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,36 +36,29 @@ public class TicketService {
         ticketRepository.updateTicketStatus(ticketStatus, id);
     }
 
+    //✅
     @PostAuthorize("hasRole('ADMIN') or principal.getId() == returnObject.getUser().getId()")
     public Ticket getTicketById(long id){
         return ticketRepository.findById(id).get();
     }
 
-    public List<Ticket> getTicketByCategory(Category category){
-        List<Ticket> tickets = new ArrayList<>();
-        ticketRepository.findByCategory(category).forEach(tickets::add);
-        return tickets;
-    }
-
-    public List<Ticket> getTicketByStatus(TicketStatus status){
-        List<Ticket> tickets = new ArrayList<>();
-        ticketRepository.findByStatus(status).forEach(tickets::add);
-        return tickets;
-    }
-
-    public List<Ticket> getTicketByUserId(long id){
-        return ticketRepository.findByUserId(id);
-    }
-
+    //✅
     public void addTicket(Ticket ticket){
         ticketRepository.save(ticket);
     }
 
-
-
+    //✅
+    @PreAuthorize("@authorizationInspector.inspectTicket(#ticketId, principal.getId())")
     public void deleteTicket(long ticketId){
         ticketRepository.deleteById(ticketId);
     }
+    //✅
+    @PreAuthorize("hasRole('ADMIN') or principal.getId() == #id")
+    public List<Ticket> getTicketByUserId(long id){
+        return ticketRepository.findByUserId(id);
+    }
+
+
 
 
 //not finalized yet
@@ -88,6 +77,18 @@ public class TicketService {
         Collections.reverse(tickets);
         return tickets;
 
+    }
+
+    public List<Ticket> getTicketByCategory(Category category){
+        List<Ticket> tickets = new ArrayList<>();
+        ticketRepository.findByCategory(category).forEach(tickets::add);
+        return tickets;
+    }
+
+    public List<Ticket> getTicketByStatus(TicketStatus status){
+        List<Ticket> tickets = new ArrayList<>();
+        ticketRepository.findByStatus(status).forEach(tickets::add);
+        return tickets;
     }
 
 }
