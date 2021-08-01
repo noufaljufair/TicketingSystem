@@ -53,7 +53,7 @@ public class TicketService {
     public void addTicket(Ticket ticket){
         ticketRepository.save(ticket);
     }
-    
+
     @PreAuthorize("@authorizationInspector.inspectTicket(#ticketId, principal.getId())")
     public void deleteTicket(long ticketId){
         ticketRepository.deleteById(ticketId);

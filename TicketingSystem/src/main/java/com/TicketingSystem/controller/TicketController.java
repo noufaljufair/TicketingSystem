@@ -1,5 +1,9 @@
 package com.TicketingSystem.controller;
 
+import com.TicketingSystem.dto.mappers.TicketMapper;
+import com.TicketingSystem.dto.response.AbstractTicketDto;
+import com.TicketingSystem.dto.response.AllTicketDto;
+import com.TicketingSystem.dto.response.DetailedTicketDto;
 import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
@@ -15,29 +19,35 @@ import java.util.List;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final TicketMapper ticketMapper;
 
-    public TicketController(TicketService ticketService){
+    public TicketController(TicketService ticketService, TicketMapper ticketMapper){
         this.ticketService = ticketService;
+        this.ticketMapper = ticketMapper;
     }
 
     @GetMapping("/admin")
-    public List<Ticket> getAllTickets(@RequestParam(required = false) Direction direction){
-        return ticketService.getAllTickets(direction == null? getDirection() : direction);
+    public List<AllTicketDto> getAllTickets(@RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getAllTickets(direction == null? getDirection() : direction);
+        return ticketMapper.toAllTicketDtoList(tickets);
     }
 
     @GetMapping("admin/subject")
-    public List<Ticket> getAllTicketBySubject(@RequestParam String subject, @RequestParam(required = false) Direction direction){
-        return ticketService.getAllTicketBySubject(subject, direction == null? getDirection() : direction);
+    public List<AllTicketDto> getAllTicketBySubject(@RequestParam String subject, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getAllTicketBySubject(subject, direction == null? getDirection() : direction);
+        return ticketMapper.toAllTicketDtoList(tickets);
     }
 
     @GetMapping("admin/category")
-    public List<Ticket> getAllTicketByCategory(@RequestParam Category category, @RequestParam(required = false) Direction direction){
-        return ticketService.getAllTicketByCategory(category, direction == null? getDirection() : direction);
+    public List<AllTicketDto> getAllTicketByCategory(@RequestParam Category category, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getAllTicketByCategory(category, direction == null? getDirection() : direction);
+        return ticketMapper.toAllTicketDtoList(tickets);
     }
 
     @GetMapping("admin/status")
-    public List<Ticket> getAllTicketByStatus(@RequestParam TicketStatus status, @RequestParam(required = false) Direction direction){
-        return ticketService.getAllTicketByStatus(status, direction == null? getDirection() : direction);
+    public List<AllTicketDto> getAllTicketByStatus(@RequestParam TicketStatus status, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getAllTicketByStatus(status, direction == null? getDirection() : direction);
+        return ticketMapper.toAllTicketDtoList(tickets);
     }
 
     @PutMapping(value = "admin/{id}")
@@ -60,33 +70,36 @@ public class TicketController {
 
 
     @GetMapping("client/{id}/subject")
-    public List<Ticket> getUserTicketBySubject(@RequestParam String subject, @PathVariable long id, @RequestParam(required = false) Direction direction){
-        return ticketService.getUserTicketBySubject(subject, id, direction == null? getDirection() : direction);
+    public List<AbstractTicketDto> getUserTicketBySubject(@RequestParam String subject, @PathVariable long id, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getUserTicketBySubject(subject, id, direction == null? getDirection() : direction);
+        return ticketMapper.toAbstractTicketDtoList(tickets);
     }
 
     @GetMapping("client/{id}/category")
-    public List<Ticket> getUserTicketByCategory(@RequestParam Category category, @PathVariable long id, @RequestParam(required = false) Direction direction){
-        return ticketService.getUserTicketByCategory(category, id, direction == null? getDirection() : direction);
+    public List<AbstractTicketDto> getUserTicketByCategory(@RequestParam Category category, @PathVariable long id, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getUserTicketByCategory(category, id, direction == null? getDirection() : direction);
+        return ticketMapper.toAbstractTicketDtoList(tickets);
     }
 
     @GetMapping("client/{id}/status")
-    public List<Ticket> getUserTicketByStatus(@RequestParam TicketStatus status, @PathVariable long id, @RequestParam(required = false) Direction direction){
-        return ticketService.getUserTicketByStatus(status, id, direction == null? getDirection() : direction);
+    public List<AbstractTicketDto> getUserTicketByStatus(@RequestParam TicketStatus status, @PathVariable long id, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getUserTicketByStatus(status, id, direction == null? getDirection() : direction);
+        return ticketMapper.toAbstractTicketDtoList(tickets);
     }
 
 
 
     @GetMapping("/user/{id}")
-    public List<Ticket> getTicketByUserId(@PathVariable long id, @RequestParam(required = false) Direction direction){
-        return ticketService.getTicketByUserId(id, direction == null? getDirection() : direction);
+    public List<AbstractTicketDto> getTicketByUserId(@PathVariable long id, @RequestParam(required = false) Direction direction){
+        List<Ticket> tickets = ticketService.getTicketByUserId(id, direction == null? getDirection() : direction);
+        return ticketMapper.toAbstractTicketDtoList(tickets);
     }
 
     @GetMapping("/{id}")
-    public Ticket getTicketById(@PathVariable long id){
-        return ticketService.getTicketById(id);
+    public DetailedTicketDto getTicketById(@PathVariable long id){
+        Ticket ticket = ticketService.getTicketById(id);
+        return ticketMapper.toDetailedTicketDto(ticket);
     }
-
-
 
     private Direction getDirection(){
         return Direction.ASC;

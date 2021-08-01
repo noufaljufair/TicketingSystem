@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends Auditable {
 
-    @OneToMany(fetch = FetchType.EAGER ,mappedBy = "user")@JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "user")@JsonManagedReference
     private List<Ticket> tickets = new ArrayList<>();
 
     @Id
