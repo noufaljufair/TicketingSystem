@@ -1,5 +1,6 @@
 package com.TicketingSystem.dto.mappers;
 
+import com.TicketingSystem.dto.request.AddTicketRequest;
 import com.TicketingSystem.dto.response.AbstractTicketDto;
 import com.TicketingSystem.dto.response.AllTicketDto;
 import com.TicketingSystem.dto.response.DetailedTicketDto;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-08-01T15:44:33+0300",
+    date = "2021-08-02T09:42:12+0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 16.0.1 (Oracle Corporation)"
 )
 @Component
@@ -124,6 +125,23 @@ public class TicketMapperImpl implements TicketMapper {
         return detailedTicketDto;
     }
 
+    @Override
+    public Ticket toTicket(AddTicketRequest addTicketRequest) {
+        if ( addTicketRequest == null ) {
+            return null;
+        }
+
+        Ticket ticket = new Ticket();
+
+        ticket.setUser( addTicketRequestToUser( addTicketRequest ) );
+        ticket.setSubject( addTicketRequest.getSubject() );
+        ticket.setDescription( addTicketRequest.getDescription() );
+        ticket.setStatus( addTicketRequest.getStatus() );
+        ticket.setCategory( addTicketRequest.getCategory() );
+
+        return ticket;
+    }
+
     private String ticketUserFirstName(Ticket ticket) {
         if ( ticket == null ) {
             return null;
@@ -152,5 +170,17 @@ public class TicketMapperImpl implements TicketMapper {
             return null;
         }
         return lastName;
+    }
+
+    protected User addTicketRequestToUser(AddTicketRequest addTicketRequest) {
+        if ( addTicketRequest == null ) {
+            return null;
+        }
+
+        User user = new User();
+
+        user.setId( addTicketRequest.getUserId() );
+
+        return user;
     }
 }

@@ -1,5 +1,6 @@
 package com.TicketingSystem.dto.mappers;
 
+import com.TicketingSystem.dto.request.AddTicketRequest;
 import com.TicketingSystem.dto.response.AbstractTicketDto;
 import com.TicketingSystem.dto.response.AllTicketDto;
 import com.TicketingSystem.dto.response.DetailedTicketDto;
@@ -26,4 +27,7 @@ public interface TicketMapper {
     @Mapping(source = "user.firstName", target = "clientFirstName")
     @Mapping(source = "user.lastName", target = "clientLastName")
     DetailedTicketDto toDetailedTicketDto(Ticket ticket);
+
+    @Mapping(source = "userId", target = "user.id")
+    Ticket toTicket(AddTicketRequest addTicketRequest);
 }

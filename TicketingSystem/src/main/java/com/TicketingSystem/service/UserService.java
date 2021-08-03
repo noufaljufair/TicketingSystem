@@ -1,6 +1,7 @@
 package com.TicketingSystem.service;
 
 import com.TicketingSystem.model.User;
+import com.TicketingSystem.model.enums.Gender;
 import com.TicketingSystem.repository.UserRepository;
 import com.TicketingSystem.security.JwtUtil;
 import com.TicketingSystem.security.RedisUtils;
@@ -22,8 +23,8 @@ public class UserService {
    }
 
     @PreAuthorize("principal.getId() == #id")
-    public void updateUser(User user, long id){
-        userRepository.save(user);
+    public void updateUser(String firstName, String lastName, Gender gender, long  id){
+        userRepository.updateUser(firstName, lastName, gender, id);
    }
     @PreAuthorize("hasRole('ADMIN') or principal.getId() == #id")
     public User getUserById(long id){

@@ -1,6 +1,7 @@
 package com.TicketingSystem.controller;
 
 import com.TicketingSystem.dto.mappers.TicketMapper;
+import com.TicketingSystem.dto.request.AddTicketRequest;
 import com.TicketingSystem.dto.response.AbstractTicketDto;
 import com.TicketingSystem.dto.response.AllTicketDto;
 import com.TicketingSystem.dto.response.DetailedTicketDto;
@@ -59,7 +60,8 @@ public class TicketController {
 
 
     @PostMapping("/client")
-    public void addTicket(@Valid @RequestBody Ticket ticket){
+    public void addTicket(@Valid @RequestBody AddTicketRequest addTicketRequest){
+        Ticket ticket = ticketMapper.toTicket(addTicketRequest);
         ticketService.addTicket(ticket);
     }
 

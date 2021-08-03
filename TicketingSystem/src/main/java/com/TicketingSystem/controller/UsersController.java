@@ -1,6 +1,8 @@
 package com.TicketingSystem.controller;
 
-import com.TicketingSystem.model.Principal;
+import com.TicketingSystem.dto.mappers.UserMapper;
+import com.TicketingSystem.dto.request.UpdateUserRequest;
+import com.TicketingSystem.dto.response.UserDto;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
 import org.springframework.util.StringUtils;
@@ -16,17 +18,18 @@ import javax.validation.Valid;
 public class UsersController {
 
     private final UserService userService;
-
-    public UsersController(UserService userService){
+    private final UserMapper userMapper;
+    public UsersController(UserService userService, UserMapper userMapper){
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
-    @PutMapping(value = "/{id}") //owner✅
-    public void updateUser(@Valid @RequestBody User user , @PathVariable long id ){
-        userService.updateUser(user, id);
+    @PutMapping(value = "/{id}")
+    public void updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, @PathVariable long id ){
+        userService.updateUser(updateUserRequest.getFirstName(), updateUserRequest.getLastName(), updateUserRequest.getGender(), id);
     }
 
-    @DeleteMapping(value = "/{id}")//user✅
+    @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable long id, HttpServletRequest request ) throws ServletException {
         final String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -36,6 +39,9 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")//admin or that user✅
-    public User getUserById(@PathVariable long id){ return userService.getUserById(id); }
+    public UserDto getUserById(@PathVariable long id){
+        User user = userService.getUserById(id);
+        return userMapper.toUserDto(user);
+    }
 
 }
