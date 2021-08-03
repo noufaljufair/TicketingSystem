@@ -1,5 +1,7 @@
 package com.TicketingSystem.service;
 
+import com.TicketingSystem.configuration.Translator;
+import com.TicketingSystem.exception.ResourceNotFoundException;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.model.enums.Gender;
 import com.TicketingSystem.repository.UserRepository;
@@ -8,6 +10,7 @@ import com.TicketingSystem.security.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @Slf4j
@@ -28,7 +31,8 @@ public class UserService {
    }
     @PreAuthorize("hasRole('ADMIN') or principal.getId() == #id")
     public User getUserById(long id){
-      return userRepository.findById(id).get();
+      return userRepository.findById(id)
+              .orElseThrow(() -> new ResourceNotFoundException(Translator.toLocale("error.user.id.notFound")));
  }
 
     @PreAuthorize("principal.getId() == #id")

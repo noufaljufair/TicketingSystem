@@ -38,7 +38,7 @@ public class UsersController {
         }
     }
 
-    @GetMapping("/{id}")//admin or that user✅
+    @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable long id){
         User user = userService.getUserById(id);
         return userMapper.toUserDto(user);

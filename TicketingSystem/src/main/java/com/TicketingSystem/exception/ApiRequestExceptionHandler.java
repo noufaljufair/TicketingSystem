@@ -56,25 +56,37 @@ public class ApiRequestExceptionHandler{
         }
 
         @ExceptionHandler(InvalidFormatException.class)
-        public ResponseEntity handleInvalidFormatException(InvalidFormatException httpMessageNotReadableException){
-            String errorMessage = Translator.toLocale("error.invalidEnumValue");
-            return new ResponseEntity(new ApiResponse(false, errorMessage), HttpStatus.BAD_REQUEST);
+        public ResponseEntity handleInvalidFormatException(InvalidFormatException invalidFormatException){
+            Class<?> type = invalidFormatException.getTargetType();
+            return new ResponseEntity(new ApiResponse(false, getEnumErrorMessage(type)), HttpStatus.BAD_REQUEST);
         }
 
         @ExceptionHandler(MethodArgumentTypeMismatchException.class)
         public ResponseEntity handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception){
             Class<?> type = exception.getRequiredType();
-            String errorMessage;
+            return new ResponseEntity(new ApiResponse(false, getEnumErrorMessage(type)), HttpStatus.BAD_REQUEST);
+        }
 
-            if(type.isEnum() && type.getSimpleName().equals("Category")){
-                    errorMessage = Translator.toLocale("error.invalidCategory");
-            }else if(type.isEnum() && type.getSimpleName().equals("TicketStatus")){
-                    errorMessage = Translator.toLocale("error.invalidStatus");
-            }else{
-                errorMessage = Translator.toLocale("error.invalidEnumValue");
-            }
+        @ExceptionHandler(ResourceNotFoundException.class)
+        public ResponseEntity handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException){
+            String message = resourceNotFoundException.getMessage();
+            return new ResponseEntity(new ApiResponse(false, message), HttpStatus.BAD_REQUEST);
+        }
 
-            return new ResponseEntity(new ApiResponse(false, errorMessage), HttpStatus.BAD_REQUEST);
+        private String getEnumErrorMessage(Class<?> type){
+            if(type.isEnum() && type.getSimpleName().equals("Category"))
+                return Translator.toLocale("error.invalidCategory");
+
+            if(type.isEnum() && type.getSimpleName().equals("TicketStatus"))
+                return Translator.toLocale("error.invalidStatus");
+
+            if(type.isEnum() && type.getSimpleName().equals("UserRole"))
+                return Translator.toLocale("error.invalidRole");
+
+            if(type.isEnum() && type.getSimpleName().equals("Gender"))
+                return Translator.toLocale("error.invalidGender");
+
+            return Translator.toLocale("error.invalidEnumValue");
         }
 
 }

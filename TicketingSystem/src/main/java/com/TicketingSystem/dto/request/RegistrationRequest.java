@@ -30,9 +30,11 @@ public class RegistrationRequest {
     @Email(message="{error.user.email.invalid}")
     private String email;
 
+    @NotNull(message = "{error.user.gender.required}")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @NotNull(message = "{error.user.role.required}")
     @Enumerated(EnumType.STRING)
     private UserRole role;
 

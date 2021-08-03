@@ -1,5 +1,7 @@
 package com.TicketingSystem.service;
 
+import com.TicketingSystem.configuration.Translator;
+import com.TicketingSystem.exception.ResourceNotFoundException;
 import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
@@ -10,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class TicketService {
@@ -41,9 +44,11 @@ public class TicketService {
         return ticketRepository.findByUserId(id, Sort.by(direction,"LastModifiedDate"));
     }
 
+
     @PostAuthorize("hasRole('ADMIN') or principal.getId() == returnObject.getUser().getId()")
     public Ticket getTicketById(long id){
-        return ticketRepository.findById(id).get();
+        return ticketRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(Translator.toLocale("error.ticket.id.notFound")));
     }
 
     public void updateTicketStatus(TicketStatus ticketStatus, long id){
