@@ -1,6 +1,6 @@
 package com.TicketingSystem.dto.response;
 
-import com.TicketingSystem.exception.FieldErrorModel;
+import com.TicketingSystem.exception.ErrorModel;
 import lombok.*;
 
 import java.util.List;
@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ErrorResponse {
-    private List<FieldErrorModel> errorMessage;
+    private List<ErrorModel> errorMessage;
 }

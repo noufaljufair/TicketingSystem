@@ -7,10 +7,12 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +23,11 @@ public class ApiRequestExceptionHandler{
 
         @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
-            List<FieldErrorModel> errorMessage = exception.getBindingResult()
+            List<ErrorModel> errorMessage = exception.getBindingResult()
                     .getFieldErrors()
                     .stream()
                     .map(error ->
-                new FieldErrorModel(error.getField(), error.getRejectedValue(), error.getDefaultMessage()))
+                new ErrorModel(error.getField(), error.getRejectedValue(), error.getDefaultMessage()))
                     .distinct()
                     .collect(Collectors.toList());
 
@@ -37,12 +39,12 @@ public class ApiRequestExceptionHandler{
         @ExceptionHandler(DataIntegrityViolationException.class)
         public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException exception){
             String message = exception.getRootCause().getMessage();
-            List<FieldErrorModel> errorMessage;
+            List<ErrorModel> errorMessage;
 
             if(message != null && message.contains("duplicate") && message.contains("email")){
-                errorMessage = Arrays.asList(new FieldErrorModel("email","", Translator.toLocale("error.user.email.inUse")));
+                errorMessage = Arrays.asList(new ErrorModel("email","", Translator.toLocale("error.user.email.inUse")));
             }else{
-                errorMessage = Arrays.asList(new FieldErrorModel("","",message));
+                errorMessage = Arrays.asList(new ErrorModel(message));
             }
 
             ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(errorMessage).build();
@@ -71,6 +73,12 @@ public class ApiRequestExceptionHandler{
         public ResponseEntity handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException){
             String message = resourceNotFoundException.getMessage();
             return new ResponseEntity(new ApiResponse(false, message), HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(NoHandlerFoundException.class)
+        public ResponseEntity handleNotFoundException(NoHandlerFoundException exception){
+            String reason = exception.getMessage();
+            return new ResponseEntity(new ApiResponse(false, new ErrorModel(Translator.toLocale("error.page.notFound"), reason)), HttpStatus.NOT_FOUND);
         }
 
         private String getEnumErrorMessage(Class<?> type){
