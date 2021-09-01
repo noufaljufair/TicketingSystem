@@ -2,6 +2,7 @@ package com.TicketingSystem.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
+/***
+ * sub-code: 420 -> Expired JWT Token
+ */
 @Component
 public class AuthenticationAuthorizationExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
     @Override
@@ -35,18 +39,22 @@ public class AuthenticationAuthorizationExceptionHandler implements Authenticati
         Exception exception = (Exception) httpServletRequest.getAttribute("exception");
 
         String message;
+        byte[] body;
 
         if (exception != null){
-            byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("cause", exception.toString()));
-            httpServletResponse.getOutputStream().write(body);
+            if(exception instanceof ExpiredJwtException){
+                body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("subcode", "420"));
+            }else {
+                body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("cause", exception.toString()));
+            }
         }else{
             if (e.getCause() != null){
                 message = e.getCause().toString() + " " + e.getMessage();
             }else{
                 message = e.getMessage();
             }
-            byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", message));
-            httpServletResponse.getOutputStream().write(body);
+            body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", message));
         }
+        httpServletResponse.getOutputStream().write(body);
     }
 }

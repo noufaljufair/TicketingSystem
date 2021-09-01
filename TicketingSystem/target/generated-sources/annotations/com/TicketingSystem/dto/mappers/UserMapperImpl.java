@@ -4,12 +4,13 @@ import com.TicketingSystem.dto.request.RegistrationRequest;
 import com.TicketingSystem.dto.response.UserDto;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.model.enums.Gender;
+import com.TicketingSystem.model.enums.UserRole;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-08-22T11:04:39+0300",
+    date = "2021-09-01T11:15:48+0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 16.0.1 (Oracle Corporation)"
 )
 @Component
@@ -39,17 +40,21 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
+        Long id = null;
         String firstName = null;
         String lastName = null;
         String email = null;
         Gender gender = null;
+        UserRole role = null;
 
+        id = user.getId();
         firstName = user.getFirstName();
         lastName = user.getLastName();
         email = user.getEmail();
         gender = user.getGender();
+        role = user.getRole();
 
-        UserDto userDto = new UserDto( firstName, lastName, email, gender );
+        UserDto userDto = new UserDto( id, firstName, lastName, email, gender, role );
 
         return userDto;
     }
