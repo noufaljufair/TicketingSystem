@@ -1,6 +1,7 @@
 package com.TicketingSystem.service;
 
 import com.TicketingSystem.configuration.Translator;
+import com.TicketingSystem.dto.request.ChangePasswordDto;
 import com.TicketingSystem.exception.ResourceNotFoundException;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.model.enums.Gender;
@@ -8,8 +9,11 @@ import com.TicketingSystem.repository.UserRepository;
 import com.TicketingSystem.security.JwtUtil;
 import com.TicketingSystem.security.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -40,4 +44,15 @@ public class UserService {
         redisUtils.save(token, jwtUtil.extractExpirationDate(token));
         userRepository.deleteById(id);
    }
+
+   @PreAuthorize("principal.getId() == #userId")
+   @Transactional
+    public boolean changePassword(ChangePasswordDto changePasswordDto, long userId) {
+       User user = userRepository.findById(userId).get();
+       if (new BCryptPasswordEncoder().matches(changePasswordDto.getCurrentPassword(), user.getPassword())) {
+           userRepository.changePassword(userId, new BCryptPasswordEncoder().encode(changePasswordDto.getPassword()));
+           return true;
+       }
+       return false;
+    }
 }

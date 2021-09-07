@@ -7,6 +7,7 @@ import com.TicketingSystem.model.enums.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("update User user set user.firstName= ?1, user.lastName =?2, user.gender = ?3 where user.id = ?4")
     void updateUser(String firstName, String lastName, Gender gender, long  id);
 
-
+    @Modifying
+    @Query(value = "update users set password =:password  where id =:userId", nativeQuery = true)
+    @javax.transaction.Transactional
+    void changePassword(@Param("userId") Long userId, @Param("password") String password);
 
 }

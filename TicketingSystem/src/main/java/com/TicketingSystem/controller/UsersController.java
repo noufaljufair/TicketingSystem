@@ -1,10 +1,12 @@
 package com.TicketingSystem.controller;
 
 import com.TicketingSystem.dto.mappers.UserMapper;
+import com.TicketingSystem.dto.request.ChangePasswordDto;
 import com.TicketingSystem.dto.request.UpdateUserRequest;
 import com.TicketingSystem.dto.response.UserDto;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +44,10 @@ public class UsersController {
     public UserDto getUserById(@PathVariable long id){
         User user = userService.getUserById(id);
         return userMapper.toUserDto(user);
+    }
+    @PostMapping ("/changePassword/{id}")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDto changePasswordDto, @PathVariable long id)  {
+        return ResponseEntity.ok(userService.changePassword(changePasswordDto, id));
     }
 
 }
