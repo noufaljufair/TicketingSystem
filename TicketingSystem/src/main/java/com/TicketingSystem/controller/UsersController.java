@@ -1,8 +1,10 @@
 package com.TicketingSystem.controller;
 
+import com.TicketingSystem.configuration.Translator;
 import com.TicketingSystem.dto.mappers.UserMapper;
 import com.TicketingSystem.dto.request.ChangePasswordDto;
 import com.TicketingSystem.dto.request.UpdateUserRequest;
+import com.TicketingSystem.dto.response.ApiResponse;
 import com.TicketingSystem.dto.response.UserDto;
 import com.TicketingSystem.model.User;
 import com.TicketingSystem.service.UserService;
@@ -47,7 +49,9 @@ public class UsersController {
     }
     @PostMapping ("/changePassword/{id}")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDto changePasswordDto, @PathVariable long id)  {
-        return ResponseEntity.ok(userService.changePassword(changePasswordDto, id));
+        if(userService.changePassword(changePasswordDto, id))
+            return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("error.user.changePassword.success")));
+        return ResponseEntity.ok(new ApiResponse(false, Translator.toLocale("error.user.changePassword.wrongPassword")));
     }
 
 }
