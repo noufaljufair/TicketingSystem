@@ -29,8 +29,9 @@ public class UsersController {
     }
 
     @PutMapping(value = "/{id}")
-    public void updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, @PathVariable long id ){
+    public ResponseEntity updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, @PathVariable long id ){
         userService.updateUser(updateUserRequest.getFirstName(), updateUserRequest.getLastName(), updateUserRequest.getGender(), id);
+        return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("user.updateUser.success")));
     }
 
     @DeleteMapping(value = "/{id}")
