@@ -30,8 +30,8 @@ public class UserService {
    }
 
     @PreAuthorize("principal.getId() == #id")
-    public void updateUser(String firstName, String lastName, Gender gender, long  id){
-        userRepository.updateUser(firstName, lastName, gender, id);
+    public void updateUser(String firstName, String lastName, Gender gender, int avatar,long  id){
+        userRepository.updateUser(firstName, lastName, gender, avatar, id);
    }
     @PreAuthorize("hasRole('ADMIN') or principal.getId() == #id")
     public User getUserById(long id){

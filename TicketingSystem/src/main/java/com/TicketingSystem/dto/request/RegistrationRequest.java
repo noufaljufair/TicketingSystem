@@ -38,4 +38,5 @@ public class RegistrationRequest {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private int avatar;
 }

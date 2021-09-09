@@ -27,8 +27,5 @@ public class UpdateUserRequest {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-
-    private byte [] avatar;
-
-
+    private int avatar;
 }

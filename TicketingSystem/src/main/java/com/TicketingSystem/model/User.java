@@ -52,17 +52,15 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Lob
-    @Type(type = "org.hibernate.type.ImageType")
     @Column
-    private byte [] avatar;
+    private int avatar;
 
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(long id, String firstName , String lastName, String password, String email , byte [] avatar, UserRole role, Gender gender, List<Ticket> tickets) {
+    public User(long id, String firstName , String lastName, String password, String email , int avatar, UserRole role, Gender gender, List<Ticket> tickets) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
