@@ -15,6 +15,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
+    private int avatar;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)

@@ -91,7 +91,7 @@ public class TicketController {
 
 
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/client/{id}")
     public List<AbstractTicketDto> getTicketByUserId(@PathVariable long id, @RequestParam(required = false) Direction direction){
         List<Ticket> tickets = ticketService.getTicketByUserId(id, direction == null? getDirection() : direction);
         return ticketMapper.toAbstractTicketDtoList(tickets);
