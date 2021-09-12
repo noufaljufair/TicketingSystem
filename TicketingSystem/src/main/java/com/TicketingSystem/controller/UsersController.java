@@ -35,12 +35,13 @@ public class UsersController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteUser(@PathVariable long id, HttpServletRequest request ) throws ServletException {
+    public ResponseEntity deleteUser(@PathVariable long id, HttpServletRequest request ) throws ServletException {
         final String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             userService.deleteUser(id, bearerToken.substring(7));
             request.logout();
         }
+        return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("user.deleteUser.success")));
     }
 
     @GetMapping("/{id}")
