@@ -1,15 +1,18 @@
 package com.TicketingSystem.controller;
 
+import com.TicketingSystem.configuration.Translator;
 import com.TicketingSystem.dto.mappers.TicketMapper;
 import com.TicketingSystem.dto.request.AddTicketRequest;
 import com.TicketingSystem.dto.response.AbstractTicketDto;
 import com.TicketingSystem.dto.response.AllTicketDto;
+import com.TicketingSystem.dto.response.ApiResponse;
 import com.TicketingSystem.dto.response.DetailedTicketDto;
 import com.TicketingSystem.model.Ticket;
 import com.TicketingSystem.model.enums.Category;
 import com.TicketingSystem.model.enums.TicketStatus;
 import com.TicketingSystem.service.TicketService;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -60,9 +63,10 @@ public class TicketController {
 
 
     @PostMapping("/client")
-    public void addTicket(@Valid @RequestBody AddTicketRequest addTicketRequest){
+    public ResponseEntity addTicket(@Valid @RequestBody AddTicketRequest addTicketRequest){
         Ticket ticket = ticketMapper.toTicket(addTicketRequest);
         ticketService.addTicket(ticket);
+        return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("ticket.add.success")));
     }
 
     @DeleteMapping(value = "client/{id}")

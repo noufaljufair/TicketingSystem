@@ -25,10 +25,6 @@ public class AddTicketRequest {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "{error.ticket.status.required}")
-    private TicketStatus status;
-
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "{error.ticket.category.required}")
     private Category category;
 

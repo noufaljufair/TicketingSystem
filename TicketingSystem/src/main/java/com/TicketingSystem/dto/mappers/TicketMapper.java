@@ -7,6 +7,7 @@ import com.TicketingSystem.dto.response.DetailedTicketDto;
 import com.TicketingSystem.model.Ticket;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public interface TicketMapper {
     @Mapping(source = "user.lastName", target = "clientLastName")
     DetailedTicketDto toDetailedTicketDto(Ticket ticket);
 
-    @Mapping(source = "userId", target = "user.id")
+    @Mappings({
+            @Mapping(source = "userId", target = "user.id"),
+            @Mapping(target = "status", constant = "RECEIVED")
+    })
     Ticket toTicket(AddTicketRequest addTicketRequest);
 }

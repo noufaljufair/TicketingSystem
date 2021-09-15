@@ -52,7 +52,7 @@ public class UsersController {
     @PostMapping ("/changePassword/{id}")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDto changePasswordDto, @PathVariable long id)  {
         if(userService.changePassword(changePasswordDto, id))
-            return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("error.user.changePassword.success")));
+            return ResponseEntity.ok(new ApiResponse(true, Translator.toLocale("user.changePassword.success")));
         return ResponseEntity.ok(new ApiResponse(false, Translator.toLocale("error.user.changePassword.wrongPassword")));
     }
 
