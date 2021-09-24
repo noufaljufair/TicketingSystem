@@ -8,8 +8,8 @@ import lombok.Getter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-@AllArgsConstructor
 @Getter
 public class AllTicketDto {
     private Long id;
@@ -18,8 +18,18 @@ public class AllTicketDto {
     private Category category;
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     private String clientFirstName;
     private String clientLastName;
+
+    public AllTicketDto(final Long id, final String subject, final Category category, final TicketStatus status, final LocalDateTime createdDate, final String clientFirstName, final String clientLastName) {
+        this.id = id;
+        this.subject = subject;
+        this.category = category;
+        this.status = status;
+        this.createdDate = createdDate.toLocalDate();
+        this.clientFirstName = clientFirstName;
+        this.clientLastName = clientLastName;
+    }
 }
